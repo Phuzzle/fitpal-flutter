@@ -12,4 +12,10 @@ class UserProgress {
     required this.reps,
     required this.weight,
   });
+
+  void updateProgress({int? newSets, int? newReps, double? newWeight}) {
+    if (newSets != null) sets = newSets;
+    if (newReps != null) reps = newReps;
+    if (newWeight != null) weight = newWeight;
+  }
 }
