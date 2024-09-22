@@ -156,16 +156,25 @@ class _NewScheduleScreenState extends State<NewScheduleScreen> {
                         return ExpansionTile(
                           title: Text(entry.key),
                           children: entry.value.map((exercise) {
-                            final isSelected = _selectedExercises[day]!.contains(exercise);
-                            final canSelect = _canSelectExercise(day, exercise);
-                            return ListTile(
-                              title: Text(exercise.name),
-                              subtitle: Text(exercise.muscleGroup),
-                              trailing: Icon(
-                                isSelected ? Icons.check_box : (canSelect ? Icons.check_box_outline_blank : Icons.block),
-                                color: isSelected ? Colors.green : (canSelect ? Colors.grey : Colors.red),
-                              ),
-                              onTap: canSelect ? () => _toggleExerciseSelection(day, exercise) : null,
+                            return StatefulBuilder(
+                              builder: (BuildContext context, StateSetter setState) {
+                                final isSelected = _selectedExercises[day]!.contains(exercise);
+                                final canSelect = _canSelectExercise(day, exercise);
+                                return ListTile(
+                                  title: Text(exercise.name),
+                                  subtitle: Text(exercise.muscleGroup),
+                                  trailing: Icon(
+                                    isSelected ? Icons.check_box : (canSelect ? Icons.check_box_outline_blank : Icons.block),
+                                    color: isSelected ? Colors.green : (canSelect ? Colors.grey : Colors.red),
+                                  ),
+                                  onTap: canSelect
+                                      ? () {
+                                          _toggleExerciseSelection(day, exercise);
+                                          setState(() {}); // Rebuild this ListTile
+                                        }
+                                      : null,
+                                );
+                              },
                             );
                           }).toList(),
                         );
