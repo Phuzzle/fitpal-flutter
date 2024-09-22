@@ -3,6 +3,7 @@
     "id": 1,
     "name": "Barbell Bench Press",
     "muscleGroup": "Compound, pec-dominant",
+    "equipment": "Barbell",
     "isBodyWeight": false
   },
   {
@@ -21,6 +22,7 @@
     "id": 4,
     "name": "Push-ups",
     "muscleGroup": "Compound, pec-dominant",
+    "equipment": "Bodyweight",
     "isBodyWeight": true
   },
   {

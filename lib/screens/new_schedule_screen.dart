@@ -41,14 +41,24 @@ class _NewScheduleScreenState extends State<NewScheduleScreen> {
       );
     }
 
-    // TODO: Implement UI for selecting exercises per day based on rules
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Create New Schedule'),
       ),
-      body: Center(
-        child: Text('Exercise Selection UI Goes Here'),
+      body: ListView.builder(
+        itemCount: _exercises.length,
+        itemBuilder: (context, index) {
+          final exercise = _exercises[index];
+          return ListTile(
+            title: Text(exercise.name),
+            subtitle: Text('${exercise.muscleGroup} - ${exercise.equipment}'),
+            trailing: Icon(exercise.isBodyWeight ? Icons.person : Icons.fitness_center),
+            onTap: () {
+              // TODO: Implement exercise selection logic
+              print('Selected exercise: ${exercise.name}');
+            },
+          );
+        },
       ),
     );
   }
