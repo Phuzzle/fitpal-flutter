@@ -2,235 +2,235 @@
   {
     "id": 1,
     "name": "Barbell Bench Press",
-    "muscleGroup": "Compound, pec-dominant",
+    "muscleGroup": "compound, pec-dominant",
     "isBodyWeight": false
   },
   {
     "id": 2,
     "name": "Dumbbell Bench Press",
-    "muscleGroup": "Compound, pec-dominant",
+    "muscleGroup": "compound, pec-dominant",
     "isBodyWeight": false
   },
   {
     "id": 3,
     "name": "Incline Dumbbell Press",
-    "muscleGroup": "Compound, pec-dominant",
+    "muscleGroup": "compound, pec-dominant",
     "isBodyWeight": false
   },
   {
     "id": 4,
     "name": "Push-ups",
-    "muscleGroup": "Compound, pec-dominant",
+    "muscleGroup": "compound, pec-dominant",
     "isBodyWeight": true
   },
   {
     "id": 5,
     "name": "Overhead Press (Barbell)",
-    "muscleGroup": "Compound, shoulder-dominant",
+    "muscleGroup": "compound, shoulder-dominant",
     "isBodyWeight": false
   },
   {
     "id": 6,
     "name": "Seated Dumbbell Press",
-    "muscleGroup": "Compound, shoulder-dominant",
+    "muscleGroup": "compound, shoulder-dominant",
     "isBodyWeight": false
   },
   {
     "id": 7,
     "name": "Push Press",
-    "muscleGroup": "Compound, shoulder-dominant",
+    "muscleGroup": "compound, shoulder-dominant",
     "isBodyWeight": false
   },
   {
     "id": 8,
     "name": "Arnold Press",
-    "muscleGroup": "Compound, shoulder-dominant",
+    "muscleGroup": "compound, shoulder-dominant",
     "isBodyWeight": false
   },
   {
     "id": 9,
     "name": "Barbell Row",
-    "muscleGroup": "Compound, upper back horizontal",
+    "muscleGroup": "compound, upper back horizontal",
     "isBodyWeight": false
   },
   {
     "id": 10,
     "name": "Pendlay Row",
-    "muscleGroup": "Compound, upper back horizontal",
+    "muscleGroup": "compound, upper back horizontal",
     "isBodyWeight": false
   },
   {
     "id": 11,
     "name": "Chest-Supported Row (Dumbbell)",
-    "muscleGroup": "Compound, upper back horizontal",
+    "muscleGroup": "compound, upper back horizontal",
     "isBodyWeight": false
   },
   {
     "id": 12,
     "name": "Bent-Over Row (Dumbbell)",
-    "muscleGroup": "Compound, upper back horizontal",
+    "muscleGroup": "compound, upper back horizontal",
     "isBodyWeight": false
   },
   {
     "id": 13,
     "name": "Pull-Ups",
-    "muscleGroup": "Compound, upper back vertical",
+    "muscleGroup": "compound, upper back vertical",
     "isBodyWeight": true
   },
   {
     "id": 14,
     "name": "Lat Pulldowns",
-    "muscleGroup": "Compound, upper back vertical",
+    "muscleGroup": "compound, upper back vertical",
     "isBodyWeight": false
   },
   {
     "id": 15,
     "name": "Close-Grip Lat Pulldown",
-    "muscleGroup": "Compound, upper back vertical",
+    "muscleGroup": "compound, upper back vertical",
     "isBodyWeight": false
   },
   {
     "id": 16,
     "name": "Deadlifts",
-    "muscleGroup": "Compound, hip-dominant",
+    "muscleGroup": "compound, hip-dominant",
     "isBodyWeight": false
   },
   {
     "id": 17,
     "name": "Romanian Deadlifts (RDLs)",
-    "muscleGroup": "Compound, hip-dominant",
+    "muscleGroup": "compound, hip-dominant",
     "isBodyWeight": false
   },
   {
     "id": 18,
     "name": "Barbell Hip Thrust",
-    "muscleGroup": "Compound, hip-dominant",
+    "muscleGroup": "compound, hip-dominant",
     "isBodyWeight": false
   },
   {
     "id": 19,
     "name": "Good Mornings",
-    "muscleGroup": "Compound, hip-dominant",
+    "muscleGroup": "compound, hip-dominant",
     "isBodyWeight": false
   },
   {
     "id": 20,
     "name": "Barbell Back Squat",
-    "muscleGroup": "Compound, knee-dominant",
+    "muscleGroup": "compound, knee-dominant",
     "isBodyWeight": false
   },
   {
     "id": 21,
     "name": "Front Squat",
-    "muscleGroup": "Compound, knee-dominant",
+    "muscleGroup": "compound, knee-dominant",
     "isBodyWeight": false
   },
   {
     "id": 22,
     "name": "Walking Lunges",
-    "muscleGroup": "Compound, knee-dominant",
+    "muscleGroup": "compound, knee-dominant",
     "isBodyWeight": true
   },
   {
     "id": 23,
     "name": "Glute Bridges",
-    "muscleGroup": "Hip-dominant accessory",
+    "muscleGroup": "hip-dominant accessory",
     "isBodyWeight": true
   },
   {
     "id": 24,
     "name": "Single-Leg RDLs",
-    "muscleGroup": "Hip-dominant accessory",
+    "muscleGroup": "hip-dominant accessory",
     "isBodyWeight": true
   },
   {
     "id": 25,
     "name": "Barbell Hip Thrust",
-    "muscleGroup": "Hip-dominant accessory",
+    "muscleGroup": "hip-dominant accessory",
     "isBodyWeight": false
   },
   {
     "id": 26,
     "name": "Glute Ham Raises",
-    "muscleGroup": "Hip-dominant accessory",
+    "muscleGroup": "hip-dominant accessory",
     "isBodyWeight": true
   },
   {
     "id": 27,
     "name": "Goblet Squats",
-    "muscleGroup": "Quad-dominant accessory",
+    "muscleGroup": "quad-dominant accessory",
     "isBodyWeight": false
   },
   {
     "id": 28,
     "name": "Step-Ups",
-    "muscleGroup": "Quad-dominant accessory",
+    "muscleGroup": "quad-dominant accessory",
     "isBodyWeight": true
   },
   {
     "id": 29,
     "name": "Bulgarian Split Squats",
-    "muscleGroup": "Quad-dominant accessory",
+    "muscleGroup": "quad-dominant accessory",
     "isBodyWeight": true
   },
   {
     "id": 30,
     "name": "Wall Sit",
-    "muscleGroup": "Quad-dominant accessory",
+    "muscleGroup": "quad-dominant accessory",
     "isBodyWeight": true
   },
   {
     "id": 31,
     "name": "Standing Calf Raises (Barbell)",
-    "muscleGroup": "Calves",
+    "muscleGroup": "calves",
     "isBodyWeight": false
   },
   {
     "id": 32,
     "name": "Seated Calf Raises (Dumbbell)",
-    "muscleGroup": "Calves",
+    "muscleGroup": "calves",
     "isBodyWeight": false
   },
   {
     "id": 33,
     "name": "Single-Leg Calf Raises",
-    "muscleGroup": "Calves",
+    "muscleGroup": "calves",
     "isBodyWeight": true
   },
   {
     "id": 34,
     "name": "Dumbbell Flyes",
-    "muscleGroup": "Vanity lifts",
+    "muscleGroup": "vanity lifts",
     "isBodyWeight": false
   },
   {
     "id": 35,
     "name": "Barbell Curls",
-    "muscleGroup": "Vanity lifts",
+    "muscleGroup": "vanity lifts",
     "isBodyWeight": false
   },
   {
     "id": 36,
     "name": "Skullcrushers",
-    "muscleGroup": "Vanity lifts",
+    "muscleGroup": "vanity lifts",
     "isBodyWeight": false
   },
   {
     "id": 37,
     "name": "Crunches",
-    "muscleGroup": "Vanity lifts",
+    "muscleGroup": "vanity lifts",
     "isBodyWeight": true
   },
   {
     "id": 38,
     "name": "Shrugs",
-    "muscleGroup": "Vanity lifts",
+    "muscleGroup": "vanity lifts",
     "isBodyWeight": false
   },
   {
     "id": 39,
     "name": "Lateral Raise (Dumbbell)",
-    "muscleGroup": "Vanity lifts",
+    "muscleGroup": "vanity lifts",
     "isBodyWeight": false
   }
 ]
