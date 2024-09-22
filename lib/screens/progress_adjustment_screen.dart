@@ -18,9 +18,9 @@ class _ProgressAdjustmentScreenState extends State<ProgressAdjustmentScreen> {
   }
 
   void _loadProgress() async {
-    var box = await _storageService.getProgressBox();
+    var progressList = await _storageService.getAllProgress();
     setState(() {
-      _progressList = box.values.toList();
+      _progressList = progressList;
     });
   }
 

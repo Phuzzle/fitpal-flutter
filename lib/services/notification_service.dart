@@ -1,4 +1,5 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:timezone/timezone.dart' as tz;
 import '../models/workout_reminder.dart';
 
 class NotificationService {
@@ -38,12 +39,15 @@ class NotificationService {
       reminder.time.minute,
     );
 
-    await _flutterLocalNotificationsPlugin.schedule(
+    await _flutterLocalNotificationsPlugin.zonedSchedule(
       int.parse(reminder.id),
       reminder.title,
       'Time for your workout!',
-      scheduledTime,
+      tz.TZDateTime.from(scheduledTime, tz.local),
       notificationDetails,
+      androidAllowWhileIdle: true,
+      uiLocalNotificationDateInterpretation:
+          UILocalNotificationDateInterpretation.absoluteTime,
     );
 
     _reminders.add(reminder);
