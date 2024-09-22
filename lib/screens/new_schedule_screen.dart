@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../models/exercise.dart';
+import '../models/schedule.dart';
 import '../services/exercise_service.dart';
+import '../services/storage_service.dart';
 
 class NewScheduleScreen extends StatefulWidget {
   @override
@@ -9,6 +11,7 @@ class NewScheduleScreen extends StatefulWidget {
 
 class _NewScheduleScreenState extends State<NewScheduleScreen> {
   final ExerciseService _exerciseService = ExerciseService();
+  final StorageService _storageService = StorageService();
   bool _isLoading = true;
   List<Exercise> _exercises = [];
 
@@ -48,5 +51,37 @@ class _NewScheduleScreenState extends State<NewScheduleScreen> {
         child: Text('Exercise Selection UI Goes Here'),
       ),
     );
+  }
+
+  void _saveSchedule(Schedule newSchedule) async {
+    Schedule? existingSchedule = await _storageService.getSchedule('default');
+    if (existingSchedule != null) {
+      // Show warning dialog
+      bool confirm = await showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text('Overwrite Existing Schedule'),
+          content: Text('Creating a new schedule will overwrite the existing one. Continue?'),
+          actions: [
+            TextButton(
+              child: Text('Cancel'),
+              onPressed: () => Navigator.pop(context, false),
+            ),
+            TextButton(
+              child: Text('Overwrite'),
+              onPressed: () => Navigator.pop(context, true),
+            ),
+          ],
+        ),
+      );
+
+      if (confirm != true) return;
+    }
+
+    // Save the new schedule
+    await _storageService.saveSchedule(newSchedule);
+
+    // Navigate back to home
+    Navigator.pop(context);
   }
 }
