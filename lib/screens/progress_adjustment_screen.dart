@@ -41,6 +41,13 @@ class _ProgressAdjustmentScreenState extends State<ProgressAdjustmentScreen> {
     return Scaffold(
         appBar: AppBar(
           title: Text('Adjust Progress'),
+          actions: [
+            IconButton(
+              icon: Icon(Icons.refresh),
+              onPressed: _loadProgress,
+              tooltip: 'Refresh Progress',
+            ),
+          ],
         ),
         body: ListView.builder(
           itemCount: _progressList.length,
