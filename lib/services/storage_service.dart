@@ -32,4 +32,9 @@ class StorageService {
     var box = Hive.box<UserProgress>(progressBox);
     return box.get(exerciseId);
   }
+
+  List<UserProgress> getProgressList() {
+    var box = Hive.box<UserProgress>(progressBox);
+    return box.values.toList();
+  }
 }
