@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'new_schedule_screen.dart';
 import 'existing_schedule_screen.dart';
+import 'progress_adjustment_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -28,6 +29,15 @@ class HomeScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => ExistingScheduleScreen()),
+                );
+              },
+            ),
+            ElevatedButton(
+              child: Text('Adjust Progress'),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ProgressAdjustmentScreen()),
                 );
               },
             ),
