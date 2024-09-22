@@ -70,7 +70,9 @@ class _NewScheduleScreenState extends State<NewScheduleScreen> {
     final rules = dayRules[day]!;
     final selectedCount = _selectedExercises[day]!.where((e) => e.muscleGroup == exercise.muscleGroup).length;
     final rule = rules.firstWhere((r) => r['muscleGroup'] == exercise.muscleGroup, orElse: () => {'count': 0});
-    return selectedCount < (rule['count'] as int);
+    final canSelect = selectedCount < (rule['count'] as int);
+    print('Can select $day ${exercise.name}: $canSelect (selected: $selectedCount, max: ${rule['count']})');
+    return canSelect;
   }
 
   void _toggleExerciseSelection(String day, Exercise exercise) {
@@ -105,6 +107,12 @@ class _NewScheduleScreenState extends State<NewScheduleScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print('Building NewScheduleScreen');
+    print('Current _selectedExercises:');
+    _selectedExercises.forEach((day, exercises) {
+      print('$day: ${exercises.map((e) => e.name).join(', ')}');
+    });
+
     if (_isLoading) {
       return Scaffold(
         appBar: AppBar(
