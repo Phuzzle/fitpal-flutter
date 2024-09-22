@@ -74,13 +74,12 @@ class _NewScheduleScreenState extends State<NewScheduleScreen> {
   }
 
   void _toggleExerciseSelection(String day, Exercise exercise) {
-    setState(() {
-      if (_selectedExercises[day]!.contains(exercise)) {
-        _selectedExercises[day]!.remove(exercise);
-      } else if (_canSelectExercise(day, exercise)) {
-        _selectedExercises[day]!.add(exercise);
-      }
-    });
+    if (_selectedExercises[day]!.contains(exercise)) {
+      _selectedExercises[day]!.remove(exercise);
+    } else if (_canSelectExercise(day, exercise)) {
+      _selectedExercises[day]!.add(exercise);
+    }
+    setState(() {}); // Trigger a rebuild of the entire screen
   }
 
   bool _isScheduleComplete() {
@@ -156,25 +155,16 @@ class _NewScheduleScreenState extends State<NewScheduleScreen> {
                         return ExpansionTile(
                           title: Text(entry.key),
                           children: entry.value.map((exercise) {
-                            return StatefulBuilder(
-                              builder: (BuildContext context, StateSetter setState) {
-                                final isSelected = _selectedExercises[day]!.contains(exercise);
-                                final canSelect = _canSelectExercise(day, exercise);
-                                return ListTile(
-                                  title: Text(exercise.name),
-                                  subtitle: Text(exercise.muscleGroup),
-                                  trailing: Icon(
-                                    isSelected ? Icons.check_box : (canSelect ? Icons.check_box_outline_blank : Icons.block),
-                                    color: isSelected ? Colors.green : (canSelect ? Colors.grey : Colors.red),
-                                  ),
-                                  onTap: canSelect
-                                      ? () {
-                                          _toggleExerciseSelection(day, exercise);
-                                          setState(() {}); // Rebuild this ListTile
-                                        }
-                                      : null,
-                                );
-                              },
+                            final isSelected = _selectedExercises[day]!.contains(exercise);
+                            final canSelect = _canSelectExercise(day, exercise);
+                            return ListTile(
+                              title: Text(exercise.name),
+                              subtitle: Text(exercise.muscleGroup),
+                              trailing: Icon(
+                                isSelected ? Icons.check_box : (canSelect ? Icons.check_box_outline_blank : Icons.block),
+                                color: isSelected ? Colors.green : (canSelect ? Colors.grey : Colors.red),
+                              ),
+                              onTap: canSelect ? () => _toggleExerciseSelection(day, exercise) : null,
                             );
                           }).toList(),
                         );
