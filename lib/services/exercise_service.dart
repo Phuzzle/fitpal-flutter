@@ -9,11 +9,11 @@ class ExerciseService {
     final String response = await rootBundle.loadString('assets/exercises.json');
     final List<dynamic> data = json.decode(response);
     _exercises = data.map((json) => Exercise(
-      id: json['id'],
+      id: json['id'].toString(),
       name: json['name'],
       muscleGroup: json['muscleGroup'],
       equipment: json['equipment'],
-      isBodyWeight: json['isBodyWeight'],
+      isBodyWeight: json['isBodyWeight'] ?? false,
     )).toList();
     return _exercises;
   }
