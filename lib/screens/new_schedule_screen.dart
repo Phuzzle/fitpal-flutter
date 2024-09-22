@@ -113,17 +113,20 @@ class _NewScheduleScreenState extends State<NewScheduleScreen> {
   }
 
   bool _isScheduleComplete() {
-    return dayRules.entries.every((entry) {
+    bool isComplete = dayRules.entries.every((entry) {
       String day = entry.key;
       List<Map<String, dynamic>> rules = entry.value;
       return rules.every((rule) {
         int requiredCount = rule['count'] as int;
         int selectedCount = _selectedExercises[day]!
-            .where((e) => e.muscleGroup == rule['muscleGroup'])
+            .where((e) => _matchesMuscleGroup(rule['muscleGroup'].toString(), e.muscleGroup))
             .length;
+        print('Day: $day, Rule: ${rule['muscleGroup']}, Required: $requiredCount, Selected: $selectedCount'); // Debug print
         return selectedCount == requiredCount;
       });
     });
+    print('Is schedule complete: $isComplete'); // Debug print
+    return isComplete;
   }
 
   @override
@@ -174,9 +177,15 @@ class _NewScheduleScreenState extends State<NewScheduleScreen> {
               onPressed: _isScheduleComplete()
                   ? () {
                       print("Save button pressed"); // Debug print
+                      print("Is schedule complete: ${_isScheduleComplete()}");
+                      print("Selected exercises: $_selectedExercises");
                       _saveSchedule(Schedule(id: 'default', weeklySchedule: _selectedExercises));
                     }
-                  : null,
+                  : () {
+                      print("Save button pressed, but schedule is not complete");
+                      print("Is schedule complete: ${_isScheduleComplete()}");
+                      print("Selected exercises: $_selectedExercises");
+                    },
             ),
           ],
         ),
@@ -240,9 +249,11 @@ class _NewScheduleScreenState extends State<NewScheduleScreen> {
 
   Future<void> _saveSchedule(Schedule newSchedule) async {
     print("Starting _saveSchedule"); // Debug print
+    print("New schedule: ${newSchedule.weeklySchedule}"); // Debug print
     setState(() => _isSaving = true);
     try {
       Schedule? existingSchedule = await _storageService.getSchedule('default');
+      print("Existing schedule: $existingSchedule"); // Debug print
       if (existingSchedule != null) {
         print("Existing schedule found"); // Debug print
         // Show warning dialog
@@ -264,6 +275,7 @@ class _NewScheduleScreenState extends State<NewScheduleScreen> {
           ),
         );
 
+        print("User confirmation: $confirm"); // Debug print
         if (confirm != true) {
           print("User cancelled overwrite"); // Debug print
           setState(() => _isSaving = false);
