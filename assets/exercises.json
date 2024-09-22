@@ -2,7 +2,7 @@
   {
     "id": 1,
     "name": "Barbell Bench Press",
-    "muscleGroup": "compound, pec-dominant",
+    "muscleGroup": "pec dominant compound",
     "isBodyWeight": false
   },
   {
@@ -26,7 +26,7 @@
   {
     "id": 5,
     "name": "Overhead Press (Barbell)",
-    "muscleGroup": "compound, shoulder-dominant",
+    "muscleGroup": "shoulder dominant compound",
     "isBodyWeight": false
   },
   {
@@ -50,7 +50,7 @@
   {
     "id": 9,
     "name": "Barbell Row",
-    "muscleGroup": "compound, upper back horizontal",
+    "muscleGroup": "horizontal back dominant compound",
     "isBodyWeight": false
   },
   {
@@ -74,7 +74,7 @@
   {
     "id": 13,
     "name": "Pull-Ups",
-    "muscleGroup": "compound, upper back vertical",
+    "muscleGroup": "vertical back dominant compound",
     "isBodyWeight": true
   },
   {
@@ -92,7 +92,7 @@
   {
     "id": 16,
     "name": "Deadlifts",
-    "muscleGroup": "compound, hip-dominant",
+    "muscleGroup": "hip dominant compound",
     "isBodyWeight": false
   },
   {
@@ -116,7 +116,7 @@
   {
     "id": 20,
     "name": "Barbell Back Squat",
-    "muscleGroup": "compound, knee-dominant",
+    "muscleGroup": "knee dominant compound",
     "isBodyWeight": false
   },
   {
@@ -134,7 +134,7 @@
   {
     "id": 23,
     "name": "Glute Bridges",
-    "muscleGroup": "hip-dominant accessory",
+    "muscleGroup": "hip dominant accessory",
     "isBodyWeight": true
   },
   {
@@ -158,7 +158,7 @@
   {
     "id": 27,
     "name": "Goblet Squats",
-    "muscleGroup": "quad-dominant accessory",
+    "muscleGroup": "quad dominant accessory",
     "isBodyWeight": false
   },
   {
@@ -182,7 +182,7 @@
   {
     "id": 31,
     "name": "Standing Calf Raises (Barbell)",
-    "muscleGroup": "calves",
+    "muscleGroup": "calf",
     "isBodyWeight": false
   },
   {
@@ -200,7 +200,7 @@
   {
     "id": 34,
     "name": "Dumbbell Flyes",
-    "muscleGroup": "vanity lifts",
+    "muscleGroup": "vanity lift",
     "isBodyWeight": false
   },
   {
