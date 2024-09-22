@@ -1,9 +1,7 @@
 import 'package:hive/hive.dart';
 
-part 'user_progress.g.dart';
-
 @HiveType(typeId: 1)
-class UserProgress extends HiveObject {
+class UserProgress {
   @HiveField(0)
   final String exerciseId;
 
