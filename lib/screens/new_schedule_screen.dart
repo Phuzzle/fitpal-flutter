@@ -68,11 +68,12 @@ class _NewScheduleScreenState extends State<NewScheduleScreen> {
 
   bool _canSelectExercise(String day, Exercise exercise) {
     final rules = dayRules[day]!;
-    final selectedCount = _selectedExercises[day]!.where((e) => e.muscleGroup == exercise.muscleGroup).length;
     
     for (var rule in rules) {
-      if (rule['muscleGroup'].toString().toLowerCase().split(' ').any((part) => 
-          exercise.muscleGroup.toLowerCase().contains(part))) {
+      if (_matchesMuscleGroup(rule['muscleGroup'].toString(), exercise.muscleGroup)) {
+        final selectedCount = _selectedExercises[day]!
+            .where((e) => _matchesMuscleGroup(rule['muscleGroup'].toString(), e.muscleGroup))
+            .length;
         final canSelect = selectedCount < (rule['count'] as int);
         print('Can select $day ${exercise.name}: $canSelect (selected: $selectedCount, max: ${rule['count']}, rule: ${rule['muscleGroup']})');
         return canSelect;
@@ -81,6 +82,17 @@ class _NewScheduleScreenState extends State<NewScheduleScreen> {
     
     print('No matching rule found for $day ${exercise.name} (muscleGroup: ${exercise.muscleGroup})');
     return false;
+  }
+
+  bool _matchesMuscleGroup(String ruleGroup, String exerciseGroup) {
+    final normalizedRuleGroup = ruleGroup.toLowerCase();
+    final normalizedExerciseGroup = exerciseGroup.toLowerCase();
+
+    if (normalizedRuleGroup == 'vanity lift' && normalizedExerciseGroup == 'vanity lifts') {
+      return true;
+    }
+
+    return normalizedExerciseGroup.contains(normalizedRuleGroup);
   }
 
   void _toggleExerciseSelection(String day, Exercise exercise) {
