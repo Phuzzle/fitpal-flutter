@@ -39,37 +39,37 @@ class _NewScheduleScreenState extends State<NewScheduleScreen> {
   bool _canSelectExercise(String day, Exercise exercise) {
     final dayRules = {
       'Day 1': [
-        {'type': 'pec dominant compound', 'count': 1},
-        {'type': 'horizontal back dominant compound', 'count': 1},
-        {'type': 'shoulder dominant compound', 'count': 1},
-        {'type': 'vertical back dominant compound', 'count': 1},
+        {'muscleGroup': 'pec dominant compound', 'count': 1},
+        {'muscleGroup': 'horizontal back dominant compound', 'count': 1},
+        {'muscleGroup': 'shoulder dominant compound', 'count': 1},
+        {'muscleGroup': 'vertical back dominant compound', 'count': 1},
       ],
       'Day 2': [
-        {'type': 'knee dominant compound', 'count': 1},
-        {'type': 'hip dominant accessory', 'count': 1},
-        {'type': 'quad dominant accessory', 'count': 1},
-        {'type': 'calf', 'count': 1},
+        {'muscleGroup': 'knee dominant compound', 'count': 1},
+        {'muscleGroup': 'hip dominant accessory', 'count': 1},
+        {'muscleGroup': 'quad dominant accessory', 'count': 1},
+        {'muscleGroup': 'calf', 'count': 1},
       ],
       'Day 3': [
-        {'type': 'shoulder dominant compound', 'count': 1},
-        {'type': 'vertical back dominant compound', 'count': 1},
-        {'type': 'pec dominant compound', 'count': 1},
-        {'type': 'horizontal back dominant compound', 'count': 1},
+        {'muscleGroup': 'shoulder dominant compound', 'count': 1},
+        {'muscleGroup': 'vertical back dominant compound', 'count': 1},
+        {'muscleGroup': 'pec dominant compound', 'count': 1},
+        {'muscleGroup': 'horizontal back dominant compound', 'count': 1},
       ],
       'Day 4': [
-        {'type': 'hip dominant compound', 'count': 1},
-        {'type': 'knee dominant compound', 'count': 1},
-        {'type': 'hip dominant accessory', 'count': 1},
-        {'type': 'calf', 'count': 1},
+        {'muscleGroup': 'hip dominant compound', 'count': 1},
+        {'muscleGroup': 'knee dominant compound', 'count': 1},
+        {'muscleGroup': 'hip dominant accessory', 'count': 1},
+        {'muscleGroup': 'calf', 'count': 1},
       ],
       'Day 5': [
-        {'type': 'vanity lift', 'count': 6},
+        {'muscleGroup': 'vanity lift', 'count': 6},
       ],
     };
 
     final rules = dayRules[day]!;
     final selectedCount = _selectedExercises[day]!.where((e) => e.muscleGroup == exercise.muscleGroup).length;
-    final rule = rules.firstWhere((r) => r['type'] == exercise.muscleGroup, orElse: () => {'count': 0});
+    final rule = rules.firstWhere((r) => r['muscleGroup'] == exercise.muscleGroup, orElse: () => {'count': 0});
     return selectedCount < (rule['count'] as int);
   }
 
