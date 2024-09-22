@@ -13,6 +13,7 @@ class _NewScheduleScreenState extends State<NewScheduleScreen> {
   final ExerciseService _exerciseService = ExerciseService();
   final StorageService _storageService = StorageService();
   bool _isLoading = true;
+  bool _isSaving = false;
   List<Exercise> _exercises = [];
   Map<String, List<Exercise>> _selectedExercises = {
     'Day 1': [],
@@ -133,10 +134,10 @@ class _NewScheduleScreenState extends State<NewScheduleScreen> {
       print('$day: ${exercises.map((e) => e.name).join(', ')}');
     });
 
-    if (_isLoading) {
+    if (_isLoading || _isSaving) {
       return Scaffold(
         appBar: AppBar(
-          title: Text('Create New Schedule'),
+          title: Text(_isSaving ? 'Saving Schedule' : 'Create New Schedule'),
         ),
         body: Center(child: CircularProgressIndicator()),
       );
@@ -171,7 +172,10 @@ class _NewScheduleScreenState extends State<NewScheduleScreen> {
             IconButton(
               icon: Icon(Icons.save),
               onPressed: _isScheduleComplete()
-                  ? () => _saveSchedule(Schedule(id: 'default', weeklySchedule: _selectedExercises))
+                  ? () {
+                      print("Save button pressed"); // Debug print
+                      _saveSchedule(Schedule(id: 'default', weeklySchedule: _selectedExercises));
+                    }
                   : null,
             ),
           ],
@@ -235,34 +239,53 @@ class _NewScheduleScreenState extends State<NewScheduleScreen> {
   }
 
   void _saveSchedule(Schedule newSchedule) async {
-    Schedule? existingSchedule = await _storageService.getSchedule('default');
-    if (existingSchedule != null) {
-      // Show warning dialog
-      bool confirm = await showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: Text('Overwrite Existing Schedule'),
-          content: Text('Creating a new schedule will overwrite the existing one. Continue?'),
-          actions: [
-            TextButton(
-              child: Text('Cancel'),
-              onPressed: () => Navigator.pop(context, false),
-            ),
-            TextButton(
-              child: Text('Overwrite'),
-              onPressed: () => Navigator.pop(context, true),
-            ),
-          ],
-        ),
+    setState(() => _isSaving = true);
+    try {
+      Schedule? existingSchedule = await _storageService.getSchedule('default');
+      if (existingSchedule != null) {
+        // Show warning dialog
+        bool confirm = await showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text('Overwrite Existing Schedule'),
+            content: Text('Creating a new schedule will overwrite the existing one. Continue?'),
+            actions: [
+              TextButton(
+                child: Text('Cancel'),
+                onPressed: () => Navigator.pop(context, false),
+              ),
+              TextButton(
+                child: Text('Overwrite'),
+                onPressed: () => Navigator.pop(context, true),
+              ),
+            ],
+          ),
+        );
+
+        if (confirm != true) {
+          setState(() => _isSaving = false);
+          return;
+        }
+      }
+
+      // Save the new schedule
+      await _storageService.saveSchedule(newSchedule);
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Schedule saved successfully!')),
       );
 
-      if (confirm != true) return;
+      // Navigate back to home after a short delay
+      Future.delayed(Duration(seconds: 1), () {
+        Navigator.pop(context);
+      });
+    } catch (e) {
+      print("Error saving schedule: $e");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error saving schedule. Please try again.')),
+      );
+    } finally {
+      setState(() => _isSaving = false);
     }
-
-    // Save the new schedule
-    await _storageService.saveSchedule(newSchedule);
-
-    // Navigate back to home
-    Navigator.pop(context);
   }
 }
