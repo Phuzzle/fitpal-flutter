@@ -14,6 +14,13 @@ class _NewScheduleScreenState extends State<NewScheduleScreen> {
   final StorageService _storageService = StorageService();
   bool _isLoading = true;
   List<Exercise> _exercises = [];
+  Map<String, List<Exercise>> _selectedExercises = {
+    'Day 1': [],
+    'Day 2': [],
+    'Day 3': [],
+    'Day 4': [],
+    'Day 5': [],
+  };
 
   @override
   void initState() {
@@ -29,7 +36,57 @@ class _NewScheduleScreenState extends State<NewScheduleScreen> {
     });
   }
 
-  // Implement exercise selection based on rules
+  bool _canSelectExercise(String day, Exercise exercise) {
+    final dayRules = {
+      'Day 1': [
+        {'type': 'pec dominant compound', 'count': 1},
+        {'type': 'horizontal back dominant compound', 'count': 1},
+        {'type': 'shoulder dominant compound', 'count': 1},
+        {'type': 'vertical back dominant compound', 'count': 1},
+      ],
+      'Day 2': [
+        {'type': 'knee dominant compound', 'count': 1},
+        {'type': 'hip dominant accessory', 'count': 1},
+        {'type': 'quad dominant accessory', 'count': 1},
+        {'type': 'calf', 'count': 1},
+      ],
+      'Day 3': [
+        {'type': 'shoulder dominant compound', 'count': 1},
+        {'type': 'vertical back dominant compound', 'count': 1},
+        {'type': 'pec dominant compound', 'count': 1},
+        {'type': 'horizontal back dominant compound', 'count': 1},
+      ],
+      'Day 4': [
+        {'type': 'hip dominant compound', 'count': 1},
+        {'type': 'knee dominant compound', 'count': 1},
+        {'type': 'hip dominant accessory', 'count': 1},
+        {'type': 'calf', 'count': 1},
+      ],
+      'Day 5': [
+        {'type': 'vanity lift', 'count': 6},
+      ],
+    };
+
+    final rules = dayRules[day]!;
+    final selectedCount = _selectedExercises[day]!.where((e) => e.type == exercise.type).length;
+    final rule = rules.firstWhere((r) => r['type'] == exercise.type, orElse: () => {'count': 0});
+    return selectedCount < (rule['count'] as int);
+  }
+
+  void _toggleExerciseSelection(String day, Exercise exercise) {
+    setState(() {
+      if (_selectedExercises[day]!.contains(exercise)) {
+        _selectedExercises[day]!.remove(exercise);
+      } else if (_canSelectExercise(day, exercise)) {
+        _selectedExercises[day]!.add(exercise);
+      }
+    });
+  }
+
+  bool _isScheduleComplete() {
+    return _selectedExercises.values.every((dayExercises) => dayExercises.isNotEmpty);
+  }
+
   @override
   Widget build(BuildContext context) {
     if (_isLoading) {
@@ -41,24 +98,62 @@ class _NewScheduleScreenState extends State<NewScheduleScreen> {
       );
     }
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Create New Schedule'),
-      ),
-      body: ListView.builder(
-        itemCount: _exercises.length,
-        itemBuilder: (context, index) {
-          final exercise = _exercises[index];
-          return ListTile(
-            title: Text(exercise.name),
-            subtitle: Text(exercise.muscleGroup),
-            trailing: Icon(exercise.isBodyWeight ? Icons.person : Icons.fitness_center),
-            onTap: () {
-              // TODO: Implement exercise selection logic
-              print('Selected exercise: ${exercise.name}');
-            },
-          );
-        },
+    final groupedExercises = _exercises.fold<Map<String, List<Exercise>>>(
+      {},
+      (map, exercise) {
+        if (!map.containsKey(exercise.muscleGroup)) {
+          map[exercise.muscleGroup] = [];
+        }
+        map[exercise.muscleGroup]!.add(exercise);
+        return map;
+      },
+    );
+
+    return DefaultTabController(
+      length: 5,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('Create New Schedule'),
+          bottom: TabBar(
+            tabs: [
+              Tab(text: 'Day 1'),
+              Tab(text: 'Day 2'),
+              Tab(text: 'Day 3'),
+              Tab(text: 'Day 4'),
+              Tab(text: 'Day 5'),
+            ],
+          ),
+        ),
+        body: TabBarView(
+          children: [
+            for (var day in ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5'])
+              ListView(
+                children: groupedExercises.entries.map((entry) {
+                  return ExpansionTile(
+                    title: Text(entry.key),
+                    children: entry.value.map((exercise) {
+                      final isSelected = _selectedExercises[day]!.contains(exercise);
+                      final canSelect = _canSelectExercise(day, exercise);
+                      return ListTile(
+                        title: Text(exercise.name),
+                        subtitle: Text(exercise.type),
+                        trailing: Icon(
+                          isSelected ? Icons.check_box : (canSelect ? Icons.check_box_outline_blank : Icons.block),
+                          color: isSelected ? Colors.green : (canSelect ? Colors.grey : Colors.red),
+                        ),
+                        onTap: canSelect ? () => _toggleExerciseSelection(day, exercise) : null,
+                      );
+                    }).toList(),
+                  );
+                }).toList(),
+              ),
+          ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: _isScheduleComplete() ? () => _saveSchedule(Schedule(exercises: _selectedExercises)) : null,
+          child: Icon(Icons.save),
+          backgroundColor: _isScheduleComplete() ? Theme.of(context).primaryColor : Colors.grey,
+        ),
       ),
     );
   }
