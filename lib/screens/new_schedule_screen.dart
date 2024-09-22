@@ -51,7 +51,7 @@ class _NewScheduleScreenState extends State<NewScheduleScreen> {
           final exercise = _exercises[index];
           return ListTile(
             title: Text(exercise.name),
-            subtitle: Text('${exercise.muscleGroup} - ${exercise.equipment}'),
+            subtitle: Text(exercise.muscleGroup),
             trailing: Icon(exercise.isBodyWeight ? Icons.person : Icons.fitness_center),
             onTap: () {
               // TODO: Implement exercise selection logic

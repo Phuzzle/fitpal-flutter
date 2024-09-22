@@ -13,7 +13,6 @@ class ExerciseService {
         id: json['id']?.toString() ?? '',
         name: json['name']?.toString() ?? '',
         muscleGroup: json['muscleGroup']?.toString() ?? '',
-        equipment: json['equipment']?.toString() ?? '',
         isBodyWeight: json['isBodyWeight'] ?? false,
       )).toList();
       return _exercises;
