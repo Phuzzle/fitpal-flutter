@@ -238,13 +238,15 @@ class _NewScheduleScreenState extends State<NewScheduleScreen> {
     );
   }
 
-  void _saveSchedule(Schedule newSchedule) async {
+  Future<void> _saveSchedule(Schedule newSchedule) async {
+    print("Starting _saveSchedule"); // Debug print
     setState(() => _isSaving = true);
     try {
       Schedule? existingSchedule = await _storageService.getSchedule('default');
       if (existingSchedule != null) {
+        print("Existing schedule found"); // Debug print
         // Show warning dialog
-        bool confirm = await showDialog(
+        bool? confirm = await showDialog<bool>(
           context: context,
           builder: (context) => AlertDialog(
             title: Text('Overwrite Existing Schedule'),
@@ -252,32 +254,35 @@ class _NewScheduleScreenState extends State<NewScheduleScreen> {
             actions: [
               TextButton(
                 child: Text('Cancel'),
-                onPressed: () => Navigator.pop(context, false),
+                onPressed: () => Navigator.of(context).pop(false),
               ),
               TextButton(
                 child: Text('Overwrite'),
-                onPressed: () => Navigator.pop(context, true),
+                onPressed: () => Navigator.of(context).pop(true),
               ),
             ],
           ),
         );
 
         if (confirm != true) {
+          print("User cancelled overwrite"); // Debug print
           setState(() => _isSaving = false);
           return;
         }
       }
 
+      print("Saving new schedule"); // Debug print
       // Save the new schedule
       await _storageService.saveSchedule(newSchedule);
 
+      print("Schedule saved successfully"); // Debug print
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Schedule saved successfully!')),
       );
 
       // Navigate back to home after a short delay
       Future.delayed(Duration(seconds: 1), () {
-        Navigator.pop(context);
+        Navigator.of(context).pop();
       });
     } catch (e) {
       print("Error saving schedule: $e");
