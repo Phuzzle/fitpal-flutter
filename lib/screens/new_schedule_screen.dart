@@ -71,7 +71,8 @@ class _NewScheduleScreenState extends State<NewScheduleScreen> {
     final selectedCount = _selectedExercises[day]!.where((e) => e.muscleGroup == exercise.muscleGroup).length;
     
     for (var rule in rules) {
-      if (exercise.muscleGroup.toLowerCase().contains(rule['muscleGroup'].toString().toLowerCase())) {
+      if (rule['muscleGroup'].toString().toLowerCase().split(' ').any((part) => 
+          exercise.muscleGroup.toLowerCase().contains(part))) {
         final canSelect = selectedCount < (rule['count'] as int);
         print('Can select $day ${exercise.name}: $canSelect (selected: $selectedCount, max: ${rule['count']}, rule: ${rule['muscleGroup']})');
         return canSelect;
