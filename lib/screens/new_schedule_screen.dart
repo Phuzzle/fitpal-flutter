@@ -167,6 +167,14 @@ class _NewScheduleScreenState extends State<NewScheduleScreen> {
               Tab(text: 'Day 5'),
             ],
           ),
+          actions: [
+            IconButton(
+              icon: Icon(Icons.save),
+              onPressed: _isScheduleComplete()
+                  ? () => _saveSchedule(Schedule(id: 'default', weeklySchedule: _selectedExercises))
+                  : null,
+            ),
+          ],
         ),
         body: TabBarView(
           children: [
@@ -195,10 +203,13 @@ class _NewScheduleScreenState extends State<NewScheduleScreen> {
                             return GestureDetector(
                               onTap: () {
                                 print('Tapped on ${exercise.name}'); // Debug print
-                                if (canSelect) {
+                                if (canSelect || isSelected) {
                                   _toggleExerciseSelection(day, exercise);
                                 } else {
                                   print('Cannot select ${exercise.name}'); // Debug print
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(content: Text('Cannot select more exercises of this type for $day')),
+                                  );
                                 }
                               },
                               child: ListTile(
@@ -218,11 +229,6 @@ class _NewScheduleScreenState extends State<NewScheduleScreen> {
                 ],
               ),
           ],
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: _isScheduleComplete() ? () => _saveSchedule(Schedule(id: 'default', weeklySchedule: _selectedExercises)) : null,
-          child: Icon(Icons.save),
-          backgroundColor: _isScheduleComplete() ? Theme.of(context).primaryColor : Colors.grey,
         ),
       ),
     );
