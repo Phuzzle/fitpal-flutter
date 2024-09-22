@@ -3,7 +3,7 @@ import 'new_schedule_screen.dart';
 import 'existing_schedule_screen.dart';
 import 'progress_adjustment_screen.dart';
 import 'reminder_screen.dart';
-import 'workout_analytics_screen.dart';
+// import 'workout_analytics_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -52,15 +52,15 @@ class HomeScreen extends StatelessWidget {
                 );
               },
             ),
-            ElevatedButton(
-              child: Text('View Workout Analytics'),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => WorkoutAnalyticsScreen()),
-                );
-              },
-            ),
+            // ElevatedButton(
+            //   child: Text('View Workout Analytics'),
+            //   onPressed: () {
+            //     Navigator.push(
+            //       context,
+            //       MaterialPageRoute(builder: (context) => WorkoutAnalyticsScreen()),
+            //     );
+            //   },
+            // ),
           ],
         ),
       ),

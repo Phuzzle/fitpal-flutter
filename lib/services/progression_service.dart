@@ -32,6 +32,7 @@ class ProgressionService {
         sets: 3,
         reps: 8,
         weight: exercise.isBodyWeight ? 0.0 : 20.0, // Initial weight can be set by user
+        lastUpdated: DateTime.now(),
       );
       return _userProgressMap[exercise.id]!;
     }

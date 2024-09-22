@@ -1,24 +1,3 @@
-import 'exercise.dart';
-
-class UserProgress {
-  final String exerciseId;
-  int sets;
-  int reps;
-  double weight;
-
-  UserProgress({
-    required this.exerciseId,
-    required this.sets,
-    required this.reps,
-    required this.weight,
-  });
-
-  void updateProgress({int? newSets, int? newReps, double? newWeight}) {
-    if (newSets != null) sets = newSets;
-    if (newReps != null) reps = newReps;
-    if (newWeight != null) weight = newWeight;
-  }
-}
 import 'package:hive/hive.dart';
 
 part 'user_progress.g.dart';
@@ -29,14 +8,29 @@ class UserProgress extends HiveObject {
   final String exerciseId;
 
   @HiveField(1)
-  final int completedSets;
+  int sets;
 
   @HiveField(2)
-  final DateTime lastUpdated;
+  int reps;
+
+  @HiveField(3)
+  double weight;
+
+  @HiveField(4)
+  DateTime lastUpdated;
 
   UserProgress({
     required this.exerciseId,
-    required this.completedSets,
+    required this.sets,
+    required this.reps,
+    required this.weight,
     required this.lastUpdated,
   });
+
+  void updateProgress({int? newSets, int? newReps, double? newWeight}) {
+    if (newSets != null) sets = newSets;
+    if (newReps != null) reps = newReps;
+    if (newWeight != null) weight = newWeight;
+    lastUpdated = DateTime.now();
+  }
 }

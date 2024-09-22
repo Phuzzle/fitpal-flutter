@@ -12,29 +12,21 @@ class ExerciseService {
       id: json['id'],
       name: json['name'],
       muscleGroup: json['muscleGroup'],
+      equipment: json['equipment'],
       isBodyWeight: json['isBodyWeight'],
     )).toList();
     return _exercises;
   }
 
   List<Exercise> get exercises => _exercises;
-}
-import '../models/exercise.dart';
 
-class ExerciseService {
-  List<Exercise> exercises = [];
-
-  Future<void> loadExercises() async {
-    // TODO: Implement actual loading logic, possibly from a database or API
-    // For now, we'll just add some dummy data
-    exercises = [
-      Exercise(name: 'Push-ups', muscleGroup: 'Chest', equipment: 'Bodyweight'),
-      Exercise(name: 'Squats', muscleGroup: 'Legs', equipment: 'Bodyweight'),
-      Exercise(name: 'Pull-ups', muscleGroup: 'Back', equipment: 'Pull-up Bar'),
-      // Add more exercises as needed
+  // For testing purposes, you can keep this method
+  Future<void> loadDummyExercises() async {
+    _exercises = [
+      Exercise(id: '1', name: 'Push-ups', muscleGroup: 'Chest', equipment: 'Bodyweight', isBodyWeight: true),
+      Exercise(id: '2', name: 'Squats', muscleGroup: 'Legs', equipment: 'Bodyweight', isBodyWeight: true),
+      Exercise(id: '3', name: 'Pull-ups', muscleGroup: 'Back', equipment: 'Pull-up Bar', isBodyWeight: true),
     ];
-    
-    // Simulate network delay
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(Duration(seconds: 2)); // Simulate network delay
   }
 }

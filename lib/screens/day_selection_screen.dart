@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../services/storage_service.dart';
 import 'workout_session_screen.dart';
 import '../models/schedule.dart';
+import '../models/exercise.dart';
 
 class DaySelectionScreen extends StatelessWidget {
   final Schedule schedule;
