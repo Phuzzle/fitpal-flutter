@@ -1,8 +1,15 @@
+import 'package:hive/hive.dart';
 import 'exercise.dart';
 
-class Schedule {
+part 'schedule.g.dart';
+
+@HiveType(typeId: 0)
+class Schedule extends HiveObject {
+  @HiveField(0)
   final String id;
-  final Map<String, List<Exercise>> weeklySchedule; // e.g., Day 1: [Exercise1, Exercise2]
+
+  @HiveField(1)
+  final Map<String, List<Exercise>> weeklySchedule;
 
   Schedule({
     required this.id,
