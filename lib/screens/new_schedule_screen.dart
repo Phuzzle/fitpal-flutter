@@ -74,12 +74,13 @@ class _NewScheduleScreenState extends State<NewScheduleScreen> {
   }
 
   void _toggleExerciseSelection(String day, Exercise exercise) {
-    if (_selectedExercises[day]!.contains(exercise)) {
-      _selectedExercises[day]!.remove(exercise);
-    } else if (_canSelectExercise(day, exercise)) {
-      _selectedExercises[day]!.add(exercise);
-    }
-    setState(() {}); // Trigger a rebuild of the entire screen
+    setState(() {
+      if (_selectedExercises[day]!.contains(exercise)) {
+        _selectedExercises[day]!.remove(exercise);
+      } else if (_canSelectExercise(day, exercise)) {
+        _selectedExercises[day]!.add(exercise);
+      }
+    });
   }
 
   bool _isScheduleComplete() {
