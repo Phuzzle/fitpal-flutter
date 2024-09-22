@@ -68,8 +68,8 @@ class _NewScheduleScreenState extends State<NewScheduleScreen> {
     };
 
     final rules = dayRules[day]!;
-    final selectedCount = _selectedExercises[day]!.where((e) => e.type == exercise.type).length;
-    final rule = rules.firstWhere((r) => r['type'] == exercise.type, orElse: () => {'count': 0});
+    final selectedCount = _selectedExercises[day]!.where((e) => e.muscleGroup == exercise.muscleGroup).length;
+    final rule = rules.firstWhere((r) => r['type'] == exercise.muscleGroup, orElse: () => {'count': 0});
     return selectedCount < (rule['count'] as int);
   }
 
@@ -136,7 +136,7 @@ class _NewScheduleScreenState extends State<NewScheduleScreen> {
                       final canSelect = _canSelectExercise(day, exercise);
                       return ListTile(
                         title: Text(exercise.name),
-                        subtitle: Text(exercise.type),
+                        subtitle: Text(exercise.muscleGroup),
                         trailing: Icon(
                           isSelected ? Icons.check_box : (canSelect ? Icons.check_box_outline_blank : Icons.block),
                           color: isSelected ? Colors.green : (canSelect ? Colors.grey : Colors.red),
@@ -150,7 +150,7 @@ class _NewScheduleScreenState extends State<NewScheduleScreen> {
           ],
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: _isScheduleComplete() ? () => _saveSchedule(Schedule(exercises: _selectedExercises)) : null,
+          onPressed: _isScheduleComplete() ? () => _saveSchedule(Schedule(id: 'default', weeklySchedule: _selectedExercises)) : null,
           child: Icon(Icons.save),
           backgroundColor: _isScheduleComplete() ? Theme.of(context).primaryColor : Colors.grey,
         ),
