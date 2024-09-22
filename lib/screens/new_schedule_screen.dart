@@ -22,6 +22,36 @@ class _NewScheduleScreenState extends State<NewScheduleScreen> {
     'Day 5': [],
   };
 
+  final Map<String, List<Map<String, dynamic>>> dayRules = {
+    'Day 1': [
+      {'muscleGroup': 'pec dominant compound', 'count': 1},
+      {'muscleGroup': 'horizontal back dominant compound', 'count': 1},
+      {'muscleGroup': 'shoulder dominant compound', 'count': 1},
+      {'muscleGroup': 'vertical back dominant compound', 'count': 1},
+    ],
+    'Day 2': [
+      {'muscleGroup': 'knee dominant compound', 'count': 1},
+      {'muscleGroup': 'hip dominant accessory', 'count': 1},
+      {'muscleGroup': 'quad dominant accessory', 'count': 1},
+      {'muscleGroup': 'calf', 'count': 1},
+    ],
+    'Day 3': [
+      {'muscleGroup': 'shoulder dominant compound', 'count': 1},
+      {'muscleGroup': 'vertical back dominant compound', 'count': 1},
+      {'muscleGroup': 'pec dominant compound', 'count': 1},
+      {'muscleGroup': 'horizontal back dominant compound', 'count': 1},
+    ],
+    'Day 4': [
+      {'muscleGroup': 'hip dominant compound', 'count': 1},
+      {'muscleGroup': 'knee dominant compound', 'count': 1},
+      {'muscleGroup': 'hip dominant accessory', 'count': 1},
+      {'muscleGroup': 'calf', 'count': 1},
+    ],
+    'Day 5': [
+      {'muscleGroup': 'vanity lift', 'count': 6},
+    ],
+  };
+
   @override
   void initState() {
     super.initState();
@@ -37,36 +67,6 @@ class _NewScheduleScreenState extends State<NewScheduleScreen> {
   }
 
   bool _canSelectExercise(String day, Exercise exercise) {
-    final dayRules = {
-      'Day 1': [
-        {'muscleGroup': 'pec dominant compound', 'count': 1},
-        {'muscleGroup': 'horizontal back dominant compound', 'count': 1},
-        {'muscleGroup': 'shoulder dominant compound', 'count': 1},
-        {'muscleGroup': 'vertical back dominant compound', 'count': 1},
-      ],
-      'Day 2': [
-        {'muscleGroup': 'knee dominant compound', 'count': 1},
-        {'muscleGroup': 'hip dominant accessory', 'count': 1},
-        {'muscleGroup': 'quad dominant accessory', 'count': 1},
-        {'muscleGroup': 'calf', 'count': 1},
-      ],
-      'Day 3': [
-        {'muscleGroup': 'shoulder dominant compound', 'count': 1},
-        {'muscleGroup': 'vertical back dominant compound', 'count': 1},
-        {'muscleGroup': 'pec dominant compound', 'count': 1},
-        {'muscleGroup': 'horizontal back dominant compound', 'count': 1},
-      ],
-      'Day 4': [
-        {'muscleGroup': 'hip dominant compound', 'count': 1},
-        {'muscleGroup': 'knee dominant compound', 'count': 1},
-        {'muscleGroup': 'hip dominant accessory', 'count': 1},
-        {'muscleGroup': 'calf', 'count': 1},
-      ],
-      'Day 5': [
-        {'muscleGroup': 'vanity lift', 'count': 6},
-      ],
-    };
-
     final rules = dayRules[day]!;
     final selectedCount = _selectedExercises[day]!.where((e) => e.muscleGroup == exercise.muscleGroup).length;
     final rule = rules.firstWhere((r) => r['muscleGroup'] == exercise.muscleGroup, orElse: () => {'count': 0});
@@ -84,7 +84,17 @@ class _NewScheduleScreenState extends State<NewScheduleScreen> {
   }
 
   bool _isScheduleComplete() {
-    return _selectedExercises.values.every((dayExercises) => dayExercises.isNotEmpty);
+    return dayRules.entries.every((entry) {
+      String day = entry.key;
+      List<Map<String, dynamic>> rules = entry.value;
+      return rules.every((rule) {
+        int requiredCount = rule['count'] as int;
+        int selectedCount = _selectedExercises[day]!
+            .where((e) => e.muscleGroup == rule['muscleGroup'])
+            .length;
+        return selectedCount == requiredCount;
+      });
+    });
   }
 
   @override
@@ -127,25 +137,42 @@ class _NewScheduleScreenState extends State<NewScheduleScreen> {
         body: TabBarView(
           children: [
             for (var day in ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5'])
-              ListView(
-                children: groupedExercises.entries.map((entry) {
-                  return ExpansionTile(
-                    title: Text(entry.key),
-                    children: entry.value.map((exercise) {
-                      final isSelected = _selectedExercises[day]!.contains(exercise);
-                      final canSelect = _canSelectExercise(day, exercise);
-                      return ListTile(
-                        title: Text(exercise.name),
-                        subtitle: Text(exercise.muscleGroup),
-                        trailing: Icon(
-                          isSelected ? Icons.check_box : (canSelect ? Icons.check_box_outline_blank : Icons.block),
-                          color: isSelected ? Colors.green : (canSelect ? Colors.grey : Colors.red),
-                        ),
-                        onTap: canSelect ? () => _toggleExerciseSelection(day, exercise) : null,
-                      );
-                    }).toList(),
-                  );
-                }).toList(),
+              Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'Rules for $day:',
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  ...dayRules[day]!.map((rule) => Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
+                    child: Text('${rule['count']} ${rule['muscleGroup']}'),
+                  )),
+                  Expanded(
+                    child: ListView(
+                      children: groupedExercises.entries.map((entry) {
+                        return ExpansionTile(
+                          title: Text(entry.key),
+                          children: entry.value.map((exercise) {
+                            final isSelected = _selectedExercises[day]!.contains(exercise);
+                            final canSelect = _canSelectExercise(day, exercise);
+                            return ListTile(
+                              title: Text(exercise.name),
+                              subtitle: Text(exercise.muscleGroup),
+                              trailing: Icon(
+                                isSelected ? Icons.check_box : (canSelect ? Icons.check_box_outline_blank : Icons.block),
+                                color: isSelected ? Colors.green : (canSelect ? Colors.grey : Colors.red),
+                              ),
+                              onTap: canSelect ? () => _toggleExerciseSelection(day, exercise) : null,
+                            );
+                          }).toList(),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                ],
               ),
           ],
         ),
