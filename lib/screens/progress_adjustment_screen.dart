@@ -18,10 +18,15 @@ class _ProgressAdjustmentScreenState extends State<ProgressAdjustmentScreen> {
   }
 
   void _loadProgress() async {
-    var progressList = await _storageService.getAllProgress();
-    setState(() {
-      _progressList = progressList;
-    });
+    try {
+      var progressList = await _storageService.getProgressList();
+      setState(() {
+        _progressList = progressList;
+      });
+    } catch (e) {
+      print('Error loading progress: $e');
+      // You might want to show an error message to the user here
+    }
   }
 
   void _updateProgress(UserProgress progress) {
