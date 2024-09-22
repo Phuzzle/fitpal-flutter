@@ -14,7 +14,7 @@
   {
     "id": 3,
     "name": "Incline Dumbbell Press",
-    "muscleGroup": "compound, pec-dominant",
+    "muscleGroup": "pec dominant compound",
     "isBodyWeight": false
   },
   {
@@ -38,7 +38,7 @@
   {
     "id": 7,
     "name": "Push Press",
-    "muscleGroup": "compound, shoulder-dominant",
+    "muscleGroup": "shoulder dominant compound",
     "isBodyWeight": false
   },
   {
@@ -62,7 +62,7 @@
   {
     "id": 11,
     "name": "Chest-Supported Row (Dumbbell)",
-    "muscleGroup": "compound, upper back horizontal",
+    "muscleGroup": "horizontal back dominant compound",
     "isBodyWeight": false
   },
   {
@@ -86,7 +86,7 @@
   {
     "id": 15,
     "name": "Close-Grip Lat Pulldown",
-    "muscleGroup": "compound, upper back vertical",
+    "muscleGroup": "vertical back dominant compound",
     "isBodyWeight": false
   },
   {
@@ -104,7 +104,7 @@
   {
     "id": 18,
     "name": "Barbell Hip Thrust",
-    "muscleGroup": "compound, hip-dominant",
+    "muscleGroup": "hip dominant compound",
     "isBodyWeight": false
   },
   {
@@ -128,7 +128,7 @@
   {
     "id": 22,
     "name": "Walking Lunges",
-    "muscleGroup": "compound, knee-dominant",
+    "muscleGroup": "knee dominant compound",
     "isBodyWeight": true
   },
   {
@@ -146,7 +146,7 @@
   {
     "id": 25,
     "name": "Barbell Hip Thrust",
-    "muscleGroup": "hip-dominant accessory",
+    "muscleGroup": "hip dominant accessory",
     "isBodyWeight": false
   },
   {
@@ -170,7 +170,7 @@
   {
     "id": 29,
     "name": "Bulgarian Split Squats",
-    "muscleGroup": "quad-dominant accessory",
+    "muscleGroup": "quad dominant accessory",
     "isBodyWeight": true
   },
   {
@@ -194,7 +194,7 @@
   {
     "id": 33,
     "name": "Single-Leg Calf Raises",
-    "muscleGroup": "calves",
+    "muscleGroup": "calf",
     "isBodyWeight": true
   },
   {
@@ -212,7 +212,7 @@
   {
     "id": 36,
     "name": "Skullcrushers",
-    "muscleGroup": "vanity lifts",
+    "muscleGroup": "vanity lift",
     "isBodyWeight": false
   },
   {
