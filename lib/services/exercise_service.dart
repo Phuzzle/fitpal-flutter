@@ -6,16 +6,21 @@ class ExerciseService {
   List<Exercise> _exercises = [];
 
   Future<List<Exercise>> loadExercises() async {
-    final String response = await rootBundle.loadString('assets/exercises.json');
-    final List<dynamic> data = json.decode(response);
-    _exercises = data.map((json) => Exercise(
-      id: json['id'].toString(),
-      name: json['name'],
-      muscleGroup: json['muscleGroup'],
-      equipment: json['equipment'],
-      isBodyWeight: json['isBodyWeight'] ?? false,
-    )).toList();
-    return _exercises;
+    try {
+      final String response = await rootBundle.loadString('assets/exercises.json');
+      final List<dynamic> data = json.decode(response);
+      _exercises = data.map((json) => Exercise(
+        id: json['id']?.toString() ?? '',
+        name: json['name']?.toString() ?? '',
+        muscleGroup: json['muscleGroup']?.toString() ?? '',
+        equipment: json['equipment']?.toString() ?? '',
+        isBodyWeight: json['isBodyWeight'] ?? false,
+      )).toList();
+      return _exercises;
+    } catch (e) {
+      print('Error loading exercises: $e');
+      return [];
+    }
   }
 
   List<Exercise> get exercises => _exercises;
