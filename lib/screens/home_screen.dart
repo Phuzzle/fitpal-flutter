@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'new_schedule_screen.dart';
 import 'existing_schedule_screen.dart';
 import 'progress_adjustment_screen.dart';
+import 'reminder_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -38,6 +39,15 @@ class HomeScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => ProgressAdjustmentScreen()),
+                );
+              },
+            ),
+            ElevatedButton(
+              child: Text('Set Workout Reminders'),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ReminderScreen()),
                 );
               },
             ),
