@@ -252,6 +252,7 @@ class _NewScheduleScreenState extends State<NewScheduleScreen> {
     print("New schedule: ${newSchedule.weeklySchedule}"); // Debug print
     setState(() => _isSaving = true);
     try {
+      print("Attempting to get existing schedule"); // Debug print
       Schedule? existingSchedule = await _storageService.getSchedule('default');
       print("Existing schedule: $existingSchedule"); // Debug print
       if (existingSchedule != null) {
@@ -284,6 +285,7 @@ class _NewScheduleScreenState extends State<NewScheduleScreen> {
       }
 
       print("Saving new schedule"); // Debug print
+      print("New schedule content: ${newSchedule.toJson()}"); // Debug print
       // Save the new schedule
       await _storageService.saveSchedule(newSchedule);
 
@@ -296,8 +298,9 @@ class _NewScheduleScreenState extends State<NewScheduleScreen> {
       Future.delayed(Duration(seconds: 1), () {
         Navigator.of(context).pop();
       });
-    } catch (e) {
+    } catch (e, stackTrace) {
       print("Error saving schedule: $e");
+      print("Stack trace: $stackTrace");
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error saving schedule. Please try again.')),
       );
