@@ -3,6 +3,14 @@ import '../models/exercise.dart';
 import 'dart:math';
 
 class ProgressionService {
+  static final ProgressionService _instance = ProgressionService._internal();
+
+  factory ProgressionService() {
+    return _instance;
+  }
+
+  ProgressionService._internal();
+
   // Define the progression pattern
   final List<Map<String, int>> _progressionPattern = [
     {'sets': 3, 'reps': 8},
@@ -16,11 +24,9 @@ class ProgressionService {
     {'sets': 5, 'reps': 12},
   ];
 
-  int _currentStep = 0;
+  Map<String, int> _currentStepMap = {};
 
   Map<String, UserProgress> _userProgressMap = {};
-
-  ProgressionService();
 
   UserProgress getProgress(Exercise exercise) {
     if (_userProgressMap.containsKey(exercise.id)) {
@@ -36,12 +42,14 @@ class ProgressionService {
         reps: 8,
         weight: exercise.isBodyWeight ? 0.0 : 20.0, // Initial weight can be set by user
       );
+      _currentStepMap[exercise.id] = 0;
       return _userProgressMap[exercise.id]!;
     }
   }
 
-  void updateProgress(Exercise exercise) {
+  UserProgress updateProgress(Exercise exercise) {
     UserProgress progress = getProgress(exercise);
+    int currentStep = _currentStepMap[exercise.id] ?? 0;
     int patternLength = _progressionPattern.length;
 
     if (progress.sets == 5 && progress.reps == 12) {
@@ -51,21 +59,30 @@ class ProgressionService {
         newWeight = (newWeight / 2.5).round() * 2.5;
         progress.updateProgress(weight: newWeight);
         // Reset to initial progression
-        _currentStep = 0;
+        currentStep = 0;
       } else {
         // For bodyweight, continue progression without weight change
-        _currentStep = (_currentStep + 1) % patternLength;
+        currentStep = (currentStep + 1) % patternLength;
       }
     } else {
-      _currentStep = (_currentStep + 1) % patternLength;
+      currentStep = (currentStep + 1) % patternLength;
     }
 
     // Update sets and reps based on progression pattern
-    if (_currentStep < _progressionPattern.length) {
-      progress.updateProgress(
-        sets: _progressionPattern[_currentStep]['sets']!,
-        reps: _progressionPattern[_currentStep]['reps']!
-      );
-    }
+    progress.updateProgress(
+      sets: _progressionPattern[currentStep]['sets']!,
+      reps: _progressionPattern[currentStep]['reps']!
+    );
+
+    _currentStepMap[exercise.id] = currentStep;
+    _userProgressMap[exercise.id] = progress;
+
+    return progress;
+  }
+
+  Map<String, int> getNextProgression(Exercise exercise) {
+    int currentStep = _currentStepMap[exercise.id] ?? 0;
+    int nextStep = (currentStep + 1) % _progressionPattern.length;
+    return _progressionPattern[nextStep];
   }
 }
