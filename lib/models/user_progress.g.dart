@@ -16,12 +16,13 @@ class UserProgressAdapter extends TypeAdapter<UserProgress> {
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return UserProgress(
+    return UserProgress.withExerciseData(
       id: fields[0] as String,
       scheduleId: fields[1] as String,
       date: fields[2] as String,
       exerciseId: fields[4] as String,
-    )..exerciseData = (fields[3] as Map).cast<String, dynamic>();
+      exerciseData: (fields[3] as Map).cast<String, dynamic>(),
+    );
   }
 
   @override
