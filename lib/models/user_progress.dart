@@ -33,8 +33,8 @@ class UserProgress extends HiveObject {
     'weight': weight,
   };
 
-  // Named constructor for Hive
-  UserProgress.fromHive({
+  // Constructor for Hive
+  UserProgress.withExerciseData({
     required this.id,
     required this.scheduleId,
     required this.date,
@@ -67,14 +67,12 @@ class UserProgress extends HiveObject {
   }
 
   factory UserProgress.fromJson(Map<String, dynamic> json) {
-    return UserProgress(
+    return UserProgress.withExerciseData(
       id: json['id'],
       scheduleId: json['scheduleId'],
       date: json['date'],
       exerciseId: json['exerciseId'],
-      sets: json['exerciseData']['sets'],
-      reps: json['exerciseData']['reps'],
-      weight: json['exerciseData']['weight'],
+      exerciseData: json['exerciseData'],
     );
   }
 }
