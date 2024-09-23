@@ -29,6 +29,21 @@ class StorageService {
     return schedule;
   }
 
+  Future<List<Schedule>> getAllSchedules() async {
+    print("StorageService: Getting all schedules");
+    var box = Hive.box<Schedule>(scheduleBox);
+    var schedules = box.values.toList();
+    print("StorageService: Retrieved ${schedules.length} schedules");
+    return schedules;
+  }
+
+  Future<void> deleteSchedule(String id) async {
+    print("StorageService: Deleting schedule with id: $id");
+    var box = Hive.box<Schedule>(scheduleBox);
+    await box.delete(id);
+    print("StorageService: Schedule deleted successfully");
+  }
+
   // UserProgress operations
   Future<void> saveProgress(UserProgress progress) async {
     print("StorageService: Saving progress for exercise id: ${progress.exerciseId}");

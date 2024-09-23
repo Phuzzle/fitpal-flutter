@@ -3,31 +3,60 @@ import '../services/storage_service.dart';
 import '../models/schedule.dart';
 import 'day_selection_screen.dart';
 
-class ExistingScheduleScreen extends StatelessWidget {
+class ExistingScheduleScreen extends StatefulWidget {
+  @override
+  _ExistingScheduleScreenState createState() => _ExistingScheduleScreenState();
+}
+
+class _ExistingScheduleScreenState extends State<ExistingScheduleScreen> {
   final StorageService _storageService = StorageService();
+  List<Schedule> _schedules = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadSchedules();
+  }
+
+  Future<void> _loadSchedules() async {
+    List<Schedule> schedules = await _storageService.getAllSchedules();
+    setState(() {
+      _schedules = schedules;
+    });
+  }
+
+  Future<void> _deleteSchedule(String id) async {
+    await _storageService.deleteSchedule(id);
+    _loadSchedules();
+  }
 
   @override
   Widget build(BuildContext context) {
-    // Fetch all schedules from storage
-    // For simplicity, assume a single schedule with id 'default'
-
-    Schedule? schedule = _storageService.getSchedule('default');
-
     return Scaffold(
       appBar: AppBar(
-        title: Text('Existing Schedule'),
+        title: Text('Existing Schedules'),
       ),
-      body: schedule == null
+      body: _schedules.isEmpty
           ? Center(
-              child: Text('No existing schedule found.'),
+              child: Text('No existing schedules found.'),
             )
-          : ListTile(
-              title: Text('Default Schedule'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => DaySelectionScreen(schedule: schedule),
+          : ListView.builder(
+              itemCount: _schedules.length,
+              itemBuilder: (context, index) {
+                Schedule schedule = _schedules[index];
+                return ListTile(
+                  title: Text('Schedule ${schedule.id}'),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => DaySelectionScreen(schedule: schedule),
+                      ),
+                    );
+                  },
+                  trailing: IconButton(
+                    icon: Icon(Icons.delete),
+                    onPressed: () => _deleteSchedule(schedule.id),
                   ),
                 );
               },
