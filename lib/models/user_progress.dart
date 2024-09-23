@@ -33,6 +33,15 @@ class UserProgress extends HiveObject {
     'weight': weight,
   };
 
+  // Named constructor for Hive
+  UserProgress.fromHive({
+    required this.id,
+    required this.scheduleId,
+    required this.date,
+    required this.exerciseId,
+    required this.exerciseData,
+  });
+
   int get sets => exerciseData['sets'] as int;
   int get reps => exerciseData['reps'] as int;
   double get weight => exerciseData['weight'] as double;
