@@ -1,7 +1,19 @@
+import 'package:hive/hive.dart';
+
+part 'exercise.g.dart';
+
+@HiveType(typeId: 1)
 class Exercise {
+  @HiveField(0)
   final String id;
+
+  @HiveField(1)
   final String name;
+
+  @HiveField(2)
   final String muscleGroup;
+
+  @HiveField(3)
   final bool isBodyWeight;
 
   Exercise({
@@ -18,6 +30,15 @@ class Exercise {
       'muscleGroup': muscleGroup,
       'isBodyWeight': isBodyWeight,
     };
+  }
+
+  factory Exercise.fromJson(Map<String, dynamic> json) {
+    return Exercise(
+      id: json['id'],
+      name: json['name'],
+      muscleGroup: json['muscleGroup'],
+      isBodyWeight: json['isBodyWeight'],
+    );
   }
 
   @override

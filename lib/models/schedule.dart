@@ -22,4 +22,16 @@ class Schedule extends HiveObject {
       'weeklySchedule': weeklySchedule.map((key, value) => MapEntry(key, value.map((e) => e.toJson()).toList())),
     };
   }
+
+  factory Schedule.fromJson(Map<String, dynamic> json) {
+    return Schedule(
+      id: json['id'],
+      weeklySchedule: (json['weeklySchedule'] as Map<String, dynamic>).map(
+        (key, value) => MapEntry(
+          key,
+          (value as List).map((e) => Exercise.fromJson(e)).toList(),
+        ),
+      ),
+    );
+  }
 }
