@@ -16,11 +16,15 @@ class UserProgress extends HiveObject {
   @HiveField(3)
   final Map<String, dynamic> exerciseData;
 
+  @HiveField(4)
+  final String exerciseId;
+
   UserProgress({
     required this.id,
     required this.scheduleId,
     required this.date,
     required this.exerciseData,
+    required this.exerciseId,
   });
 
   Map<String, dynamic> toJson() {
@@ -29,6 +33,7 @@ class UserProgress extends HiveObject {
       'scheduleId': scheduleId,
       'date': date,
       'exerciseData': exerciseData,
+      'exerciseId': exerciseId,
     };
   }
 
@@ -38,6 +43,7 @@ class UserProgress extends HiveObject {
       scheduleId: json['scheduleId'],
       date: json['date'],
       exerciseData: json['exerciseData'],
+      exerciseId: json['exerciseId'],
     );
   }
 }
