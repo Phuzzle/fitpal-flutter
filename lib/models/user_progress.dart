@@ -27,6 +27,14 @@ class UserProgress extends HiveObject {
     required this.exerciseId,
   });
 
+  int get sets => exerciseData['sets'] as int;
+  int get reps => exerciseData['reps'] as int;
+  double get weight => exerciseData['weight'] as double;
+
+  set sets(int value) => exerciseData['sets'] = value;
+  set reps(int value) => exerciseData['reps'] = value;
+  set weight(double value) => exerciseData['weight'] = value;
+
   Map<String, dynamic> toJson() {
     return {
       'id': id,
