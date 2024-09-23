@@ -4,6 +4,7 @@ import 'screens/home_screen.dart';
 import 'services/storage_service.dart';
 import 'models/schedule.dart';
 import 'models/exercise.dart';
+import 'models/user_progress.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,6 +13,7 @@ void main() async {
   // Register Hive adapters
   Hive.registerAdapter(ScheduleAdapter());
   Hive.registerAdapter(ExerciseAdapter());
+  Hive.registerAdapter(UserProgressAdapter());
   
   // Initialize storage service
   StorageService storageService = StorageService();
