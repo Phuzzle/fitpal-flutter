@@ -11,6 +11,15 @@ class Exercise {
     required this.isBodyWeight,
   });
 
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'muscleGroup': muscleGroup,
+      'isBodyWeight': isBodyWeight,
+    };
+  }
+
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
