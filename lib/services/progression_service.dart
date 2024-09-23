@@ -28,11 +28,13 @@ class ProgressionService {
     } else {
       // Initialize progress
       _userProgressMap[exercise.id] = UserProgress(
+        id: DateTime.now().millisecondsSinceEpoch.toString(),
+        scheduleId: '', // You might want to pass this as a parameter
+        date: DateTime.now().toIso8601String(),
         exerciseId: exercise.id,
         sets: 3,
         reps: 8,
         weight: exercise.isBodyWeight ? 0.0 : 20.0, // Initial weight can be set by user
-        lastUpdated: DateTime.now(),
       );
       return _userProgressMap[exercise.id]!;
     }
@@ -47,7 +49,7 @@ class ProgressionService {
         // Increase weight by 10%, rounded to nearest 2.5kg
         double newWeight = (progress.weight * 1.10).clamp(0.0, double.infinity);
         newWeight = (newWeight / 2.5).round() * 2.5;
-        progress.updateProgress(newWeight: newWeight);
+        progress.updateProgress(weight: newWeight);
         // Reset to initial progression
         _currentStep = 0;
       } else {
@@ -61,8 +63,8 @@ class ProgressionService {
     // Update sets and reps based on progression pattern
     if (_currentStep < _progressionPattern.length) {
       progress.updateProgress(
-        newSets: _progressionPattern[_currentStep]['sets']!,
-        newReps: _progressionPattern[_currentStep]['reps']!
+        sets: _progressionPattern[_currentStep]['sets']!,
+        reps: _progressionPattern[_currentStep]['reps']!
       );
     }
   }
