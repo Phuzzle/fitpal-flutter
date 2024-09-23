@@ -14,7 +14,7 @@ class UserProgress extends HiveObject {
   final String date;
 
   @HiveField(3)
-  final Map<String, dynamic> exerciseData;
+  Map<String, dynamic> exerciseData;
 
   @HiveField(4)
   final String exerciseId;
@@ -23,9 +23,15 @@ class UserProgress extends HiveObject {
     required this.id,
     required this.scheduleId,
     required this.date,
-    required this.exerciseData,
     required this.exerciseId,
-  });
+    required int sets,
+    required int reps,
+    required double weight,
+  }) : exerciseData = {
+    'sets': sets,
+    'reps': reps,
+    'weight': weight,
+  };
 
   int get sets => exerciseData['sets'] as int;
   int get reps => exerciseData['reps'] as int;
@@ -34,6 +40,12 @@ class UserProgress extends HiveObject {
   set sets(int value) => exerciseData['sets'] = value;
   set reps(int value) => exerciseData['reps'] = value;
   set weight(double value) => exerciseData['weight'] = value;
+
+  void updateProgress({int? sets, int? reps, double? weight}) {
+    if (sets != null) this.sets = sets;
+    if (reps != null) this.reps = reps;
+    if (weight != null) this.weight = weight;
+  }
 
   Map<String, dynamic> toJson() {
     return {
@@ -50,8 +62,10 @@ class UserProgress extends HiveObject {
       id: json['id'],
       scheduleId: json['scheduleId'],
       date: json['date'],
-      exerciseData: json['exerciseData'],
       exerciseId: json['exerciseId'],
+      sets: json['exerciseData']['sets'],
+      reps: json['exerciseData']['reps'],
+      weight: json['exerciseData']['weight'],
     );
   }
 }
