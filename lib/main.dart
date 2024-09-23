@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'screens/home_screen.dart';
+import 'screens/progress_adjustment_screen.dart';
 import 'services/storage_service.dart';
 import 'models/schedule.dart';
 import 'models/exercise.dart';
@@ -29,7 +30,11 @@ class WorkoutTrackerApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: HomeScreen(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => HomeScreen(),
+        '/progress': (context) => ProgressAdjustmentScreen(),
+      },
     );
   }
 }

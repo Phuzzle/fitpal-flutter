@@ -55,18 +55,16 @@ class _ProgressAdjustmentScreenState extends State<ProgressAdjustmentScreen> {
             final progress = _progressList[index];
             return ListTile(
               title: Text('Exercise ID: ${progress.exerciseId}'),
-              subtitle: Text('Sets: ${progress.sets}, Reps: ${progress.reps}, Weight: ${progress.weight} kg'),
+              subtitle: Text('Sets: ${progress.sets}, Reps: ${progress.reps}, Weight: ${progress.weight.toStringAsFixed(1)} kg'),
               trailing: IconButton(
                 icon: Icon(Icons.edit),
                 onPressed: () {
-                  // Navigate to a detailed edit screen or show a dialog
-                  // For simplicity, show a dialog to edit sets, reps, and weight
                   showDialog(
                     context: context,
                     builder: (context) {
-                      int sets = progress.sets;
-                      int reps = progress.reps;
-                      double weight = progress.weight;
+                      TextEditingController setsController = TextEditingController(text: progress.sets.toString());
+                      TextEditingController repsController = TextEditingController(text: progress.reps.toString());
+                      TextEditingController weightController = TextEditingController(text: progress.weight.toString());
 
                       return AlertDialog(
                         title: Text('Edit Progress'),
@@ -76,26 +74,17 @@ class _ProgressAdjustmentScreenState extends State<ProgressAdjustmentScreen> {
                             TextField(
                               decoration: InputDecoration(labelText: 'Sets'),
                               keyboardType: TextInputType.number,
-                              onChanged: (value) {
-                                sets = int.tryParse(value) ?? sets;
-                              },
-                              controller: TextEditingController(text: sets.toString()),
+                              controller: setsController,
                             ),
                             TextField(
                               decoration: InputDecoration(labelText: 'Reps'),
                               keyboardType: TextInputType.number,
-                              onChanged: (value) {
-                                reps = int.tryParse(value) ?? reps;
-                              },
-                              controller: TextEditingController(text: reps.toString()),
+                              controller: repsController,
                             ),
                             TextField(
                               decoration: InputDecoration(labelText: 'Weight'),
-                              keyboardType: TextInputType.number,
-                              onChanged: (value) {
-                                weight = double.tryParse(value) ?? weight;
-                              },
-                              controller: TextEditingController(text: weight.toString()),
+                              keyboardType: TextInputType.numberWithOptions(decimal: true),
+                              controller: weightController,
                             ),
                           ],
                         ),
@@ -108,9 +97,9 @@ class _ProgressAdjustmentScreenState extends State<ProgressAdjustmentScreen> {
                             child: Text('Save'),
                             onPressed: () {
                               setState(() {
-                                progress.sets = sets;
-                                progress.reps = reps;
-                                progress.weight = weight;
+                                progress.sets = int.tryParse(setsController.text) ?? progress.sets;
+                                progress.reps = int.tryParse(repsController.text) ?? progress.reps;
+                                progress.weight = double.tryParse(weightController.text) ?? progress.weight;
                               });
                               _storageService.saveProgress(progress);
                               Navigator.pop(context);
