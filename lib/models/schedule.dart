@@ -15,4 +15,11 @@ class Schedule extends HiveObject {
     required this.id,
     required this.weeklySchedule,
   });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'weeklySchedule': weeklySchedule.map((key, value) => MapEntry(key, value.map((e) => e.toJson()).toList())),
+    };
+  }
 }

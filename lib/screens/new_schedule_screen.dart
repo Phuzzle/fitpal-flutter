@@ -285,7 +285,7 @@ class _NewScheduleScreenState extends State<NewScheduleScreen> {
       }
 
       print("Saving new schedule"); // Debug print
-      print("New schedule content: ${newSchedule.toJson()}"); // Debug print
+      print("New schedule content: $newSchedule"); // Debug print
       // Save the new schedule
       await _storageService.saveSchedule(newSchedule);
 
