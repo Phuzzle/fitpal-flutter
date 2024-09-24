@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../services/storage_service.dart';
 import '../models/schedule.dart';
+import '../models/user_progress.dart';
 import 'day_selection_screen.dart';
 
 class ExistingScheduleScreen extends StatefulWidget {
@@ -30,6 +31,64 @@ class _ExistingScheduleScreenState extends State<ExistingScheduleScreen> {
     _loadSchedules();
   }
 
+  Future<void> _updateExerciseWeight(Schedule schedule) async {
+    List<UserProgress> progressList = await _storageService.getProgressList();
+    List<UserProgress> scheduleProgress = progressList.where((progress) => progress.scheduleId == schedule.id).toList();
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Update Exercise Weights'),
+          content: Container(
+            width: double.maxFinite,
+            child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: scheduleProgress.length,
+              itemBuilder: (context, index) {
+                UserProgress progress = scheduleProgress[index];
+                TextEditingController weightController = TextEditingController(text: progress.weight.toString());
+                return ListTile(
+                  title: Text('Exercise ${progress.exerciseId}'),
+                  subtitle: TextField(
+                    controller: weightController,
+                    keyboardType: TextInputType.numberWithOptions(decimal: true),
+                    decoration: InputDecoration(labelText: 'Weight (kg)'),
+                  ),
+                );
+              },
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text('Save'),
+              onPressed: () async {
+                for (int i = 0; i < scheduleProgress.length; i++) {
+                  UserProgress progress = scheduleProgress[i];
+                  TextEditingController weightController = (context.findRenderObject() as RenderBox)
+                      .findAllChildrenOfType<TextField>()[i].controller as TextEditingController;
+                  double newWeight = double.tryParse(weightController.text) ?? progress.weight;
+                  progress.weight = newWeight;
+                  await _storageService.saveProgress(progress);
+                }
+                Navigator.of(context).pop();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Weights updated successfully')),
+                );
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,9 +113,19 @@ class _ExistingScheduleScreenState extends State<ExistingScheduleScreen> {
                       ),
                     );
                   },
-                  trailing: IconButton(
-                    icon: Icon(Icons.delete),
-                    onPressed: () => _deleteSchedule(schedule.id),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      IconButton(
+                        icon: Icon(Icons.fitness_center),
+                        onPressed: () => _updateExerciseWeight(schedule),
+                        tooltip: 'Update weights',
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.delete),
+                        onPressed: () => _deleteSchedule(schedule.id),
+                      ),
+                    ],
                   ),
                 );
               },
