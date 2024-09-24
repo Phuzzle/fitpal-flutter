@@ -4,7 +4,6 @@ import '../models/schedule.dart';
 import '../models/user_progress.dart';
 import '../models/exercise.dart';
 import 'day_selection_screen.dart';
-import '../models/muscle_group.dart';  // Add this import
 
 class ExistingScheduleScreen extends StatefulWidget {
   @override
@@ -56,7 +55,7 @@ class _ExistingScheduleScreenState extends State<ExistingScheduleScreen> {
                     UserProgress progress = scheduleProgress[index];
                     Exercise exercise = allExercises.firstWhere(
                       (e) => e.id == progress.exerciseId, 
-                      orElse: () => Exercise(id: '', name: 'Unknown', isBodyWeight: false, muscleGroup: MuscleGroup.other)
+                      orElse: () => Exercise(id: '', name: 'Unknown', isBodyWeight: false, muscleGroup: 'Other')
                     );
                     TextEditingController weightController = TextEditingController(text: progress.weight.toString());
                     return Card(
