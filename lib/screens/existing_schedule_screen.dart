@@ -4,6 +4,7 @@ import '../models/schedule.dart';
 import '../models/user_progress.dart';
 import '../models/exercise.dart';
 import 'day_selection_screen.dart';
+import '../models/muscle_group.dart';  // Add this import
 
 class ExistingScheduleScreen extends StatefulWidget {
   @override
@@ -44,45 +45,57 @@ class _ExistingScheduleScreenState extends State<ExistingScheduleScreen> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Update Exercise Weights'),
-          content: Container(
-            width: double.maxFinite,
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: scheduleProgress.length,
-              itemBuilder: (context, index) {
-                UserProgress progress = scheduleProgress[index];
-                Exercise exercise = allExercises.firstWhere((e) => e.id == progress.exerciseId, orElse: () => Exercise(id: '', name: 'Unknown', isBodyWeight: false));
-                TextEditingController weightController = TextEditingController(text: progress.weight.toString());
-                return Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(exercise.name, style: TextStyle(fontWeight: FontWeight.bold)),
-                        SizedBox(height: 8),
-                        Row(
+          content: StatefulBuilder(
+            builder: (BuildContext context, StateSetter setState) {
+              return Container(
+                width: double.maxFinite,
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: scheduleProgress.length,
+                  itemBuilder: (context, index) {
+                    UserProgress progress = scheduleProgress[index];
+                    Exercise exercise = allExercises.firstWhere(
+                      (e) => e.id == progress.exerciseId, 
+                      orElse: () => Exercise(id: '', name: 'Unknown', isBodyWeight: false, muscleGroup: MuscleGroup.other)
+                    );
+                    TextEditingController weightController = TextEditingController(text: progress.weight.toString());
+                    return Card(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Expanded(
-                              child: TextField(
-                                controller: weightController,
-                                keyboardType: TextInputType.numberWithOptions(decimal: true),
-                                decoration: InputDecoration(
-                                  labelText: 'Weight (kg)',
-                                  border: OutlineInputBorder(),
+                            Text(exercise.name, style: TextStyle(fontWeight: FontWeight.bold)),
+                            SizedBox(height: 8),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: TextField(
+                                    controller: weightController,
+                                    keyboardType: TextInputType.numberWithOptions(decimal: true),
+                                    decoration: InputDecoration(
+                                      labelText: 'Weight (kg)',
+                                      border: OutlineInputBorder(),
+                                    ),
+                                    onChanged: (value) {
+                                      setState(() {
+                                        progress.weight = double.tryParse(value) ?? progress.weight;
+                                      });
+                                    },
+                                  ),
                                 ),
-                              ),
+                                SizedBox(width: 8),
+                                Text('kg'),
+                              ],
                             ),
-                            SizedBox(width: 8),
-                            Text('kg'),
                           ],
                         ),
-                      ],
-                    ),
-                  ),
-                );
-              },
-            ),
+                      ),
+                    );
+                  },
+                ),
+              );
+            },
           ),
           actions: <Widget>[
             TextButton(
@@ -94,12 +107,7 @@ class _ExistingScheduleScreenState extends State<ExistingScheduleScreen> {
             TextButton(
               child: Text('Save'),
               onPressed: () async {
-                List<Widget> textFields = (context.findRenderObject() as RenderBox).findAllChildrenOfType<TextField>();
-                for (int i = 0; i < scheduleProgress.length; i++) {
-                  UserProgress progress = scheduleProgress[i];
-                  TextEditingController weightController = textFields[i].controller as TextEditingController;
-                  double newWeight = double.tryParse(weightController.text) ?? progress.weight;
-                  progress.weight = newWeight;
+                for (UserProgress progress in scheduleProgress) {
                   await _storageService.saveProgress(progress);
                 }
                 Navigator.of(context).pop();
