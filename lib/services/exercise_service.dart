@@ -31,6 +31,6 @@ class ExerciseService {
       Exercise(id: '2', name: 'Squats', muscleGroup: 'Legs', isBodyWeight: true),
       Exercise(id: '3', name: 'Pull-ups', muscleGroup: 'Back', isBodyWeight: true),
     ];
-    await Future.delayed(Duration(seconds: 2)); // Simulate network delay
+    await Future.delayed(const Duration(seconds: 2)); // Simulate network delay
   }
 }

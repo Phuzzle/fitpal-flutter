@@ -5,6 +5,8 @@ import '../services/exercise_service.dart';
 import '../services/storage_service.dart';
 
 class NewScheduleScreen extends StatefulWidget {
+  const NewScheduleScreen({super.key});
+
   @override
   _NewScheduleScreenState createState() => _NewScheduleScreenState();
 }
@@ -15,7 +17,7 @@ class _NewScheduleScreenState extends State<NewScheduleScreen> {
   bool _isLoading = true;
   bool _isSaving = false;
   List<Exercise> _exercises = [];
-  Map<String, List<Exercise>> _selectedExercises = {
+  final Map<String, List<Exercise>> _selectedExercises = {
     'Day 1': [],
     'Day 2': [],
     'Day 3': [],
@@ -142,7 +144,7 @@ class _NewScheduleScreenState extends State<NewScheduleScreen> {
         appBar: AppBar(
           title: Text(_isSaving ? 'Saving Schedule' : 'Create New Schedule'),
         ),
-        body: Center(child: CircularProgressIndicator()),
+        body: const Center(child: CircularProgressIndicator()),
       );
     }
 
@@ -161,8 +163,8 @@ class _NewScheduleScreenState extends State<NewScheduleScreen> {
       length: 5,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Create New Schedule'),
-          bottom: TabBar(
+          title: const Text('Create New Schedule'),
+          bottom: const TabBar(
             tabs: [
               Tab(text: 'Day 1'),
               Tab(text: 'Day 2'),
@@ -173,7 +175,7 @@ class _NewScheduleScreenState extends State<NewScheduleScreen> {
           ),
           actions: [
             IconButton(
-              icon: Icon(Icons.save),
+              icon: const Icon(Icons.save),
               onPressed: _isScheduleComplete()
                   ? () {
                       print("Save button pressed"); // Debug print
@@ -198,7 +200,7 @@ class _NewScheduleScreenState extends State<NewScheduleScreen> {
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
                       'Rules for $day:',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                   ),
                   ...dayRules[day]!.map((rule) => Padding(
@@ -253,7 +255,7 @@ class _NewScheduleScreenState extends State<NewScheduleScreen> {
     setState(() => _isSaving = true);
     try {
       print("Attempting to get existing schedule"); // Debug print
-      Schedule? existingSchedule = await _storageService.getSchedule('default');
+      Schedule? existingSchedule = _storageService.getSchedule('default');
       print("Existing schedule: $existingSchedule"); // Debug print
       if (existingSchedule != null) {
         print("Existing schedule found"); // Debug print
@@ -261,15 +263,15 @@ class _NewScheduleScreenState extends State<NewScheduleScreen> {
         bool? confirm = await showDialog<bool>(
           context: context,
           builder: (context) => AlertDialog(
-            title: Text('Overwrite Existing Schedule'),
-            content: Text('Creating a new schedule will overwrite the existing one. Continue?'),
+            title: const Text('Overwrite Existing Schedule'),
+            content: const Text('Creating a new schedule will overwrite the existing one. Continue?'),
             actions: [
               TextButton(
-                child: Text('Cancel'),
+                child: const Text('Cancel'),
                 onPressed: () => Navigator.of(context).pop(false),
               ),
               TextButton(
-                child: Text('Overwrite'),
+                child: const Text('Overwrite'),
                 onPressed: () => Navigator.of(context).pop(true),
               ),
             ],
@@ -291,18 +293,18 @@ class _NewScheduleScreenState extends State<NewScheduleScreen> {
 
       print("Schedule saved successfully"); // Debug print
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Schedule saved successfully!')),
+        const SnackBar(content: Text('Schedule saved successfully!')),
       );
 
       // Navigate back to home after a short delay
-      Future.delayed(Duration(seconds: 1), () {
+      Future.delayed(const Duration(seconds: 1), () {
         Navigator.of(context).pop();
       });
     } catch (e, stackTrace) {
       print("Error saving schedule: $e");
       print("Stack trace: $stackTrace");
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error saving schedule. Please try again.')),
+        const SnackBar(content: Text('Error saving schedule. Please try again.')),
       );
     } finally {
       setState(() => _isSaving = false);

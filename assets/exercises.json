@@ -20,7 +20,7 @@
   {
     "id": 4,
     "name": "Push-ups",
-    "muscleGroup": "compound, pec-dominant",
+    "muscleGroup": "pec dominant compound",
     "isBodyWeight": true
   },
   {
@@ -44,7 +44,7 @@
   {
     "id": 8,
     "name": "Arnold Press",
-    "muscleGroup": "compound, shoulder-dominant",
+    "muscleGroup": "shoulder dominant compound",
     "isBodyWeight": false
   },
   {
@@ -68,7 +68,7 @@
   {
     "id": 12,
     "name": "Bent-Over Row (Dumbbell)",
-    "muscleGroup": "compound, upper back horizontal",
+    "muscleGroup": "horizontal back dominant compound",
     "isBodyWeight": false
   },
   {
@@ -110,7 +110,7 @@
   {
     "id": 19,
     "name": "Good Mornings",
-    "muscleGroup": "compound, hip-dominant",
+    "muscleGroup": "hip dominant compound",
     "isBodyWeight": false
   },
   {
@@ -152,7 +152,7 @@
   {
     "id": 26,
     "name": "Glute Ham Raises",
-    "muscleGroup": "hip-dominant accessory",
+    "muscleGroup": "hip dominant accessory",
     "isBodyWeight": true
   },
   {

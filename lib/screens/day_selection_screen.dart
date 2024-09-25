@@ -8,7 +8,7 @@ class DaySelectionScreen extends StatelessWidget {
   final Schedule schedule;
   final StorageService storageService = StorageService();
 
-  DaySelectionScreen({required this.schedule});
+  DaySelectionScreen({super.key, required this.schedule});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class DaySelectionScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Select Day to Exercise'),
+        title: const Text('Select Day to Exercise'),
       ),
       body: ListView.builder(
         itemCount: days.length,

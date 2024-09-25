@@ -3,6 +3,8 @@ import '../services/notification_service.dart';
 import '../models/workout_reminder.dart';
 
 class ReminderScreen extends StatefulWidget {
+  const ReminderScreen({super.key});
+
   @override
   _ReminderScreenState createState() => _ReminderScreenState();
 }
@@ -31,19 +33,19 @@ class _ReminderScreenState extends State<ReminderScreen> {
         TimeOfDay time = TimeOfDay.now();
 
         return AlertDialog(
-          title: Text('Add Reminder'),
+          title: const Text('Add Reminder'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               TextField(
-                decoration: InputDecoration(labelText: 'Title'),
+                decoration: const InputDecoration(labelText: 'Title'),
                 onChanged: (value) {
                   title = value;
                 },
               ),
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
               TextButton(
-                child: Text('Select Time'),
+                child: const Text('Select Time'),
                 onPressed: () async {
                   final selectedTime = await showTimePicker(
                     context: context,
@@ -61,13 +63,13 @@ class _ReminderScreenState extends State<ReminderScreen> {
           ),
           actions: [
             TextButton(
-              child: Text('Cancel'),
+              child: const Text('Cancel'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: Text('Add'),
+              child: const Text('Add'),
               onPressed: () {
                 final reminder = WorkoutReminder(
                   id: DateTime.now().millisecondsSinceEpoch.toString(),
@@ -91,7 +93,7 @@ class _ReminderScreenState extends State<ReminderScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Workout Reminders'),
+        title: const Text('Workout Reminders'),
       ),
       body: ListView.builder(
         itemCount: _reminders.length,
@@ -101,7 +103,7 @@ class _ReminderScreenState extends State<ReminderScreen> {
             title: Text(reminder.title),
             subtitle: Text('${reminder.time.hour}:${reminder.time.minute}'),
             trailing: IconButton(
-              icon: Icon(Icons.delete),
+              icon: const Icon(Icons.delete),
               onPressed: () {
                 _notificationService.cancelNotification(reminder.id);
                 setState(() {
@@ -113,8 +115,8 @@ class _ReminderScreenState extends State<ReminderScreen> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
         onPressed: _addReminder,
+        child: Icon(Icons.add),
       ),
     );
   }

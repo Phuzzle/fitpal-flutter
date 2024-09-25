@@ -3,6 +3,8 @@ import '../services/storage_service.dart';
 import '../models/user_progress.dart';
 
 class ProgressAdjustmentScreen extends StatefulWidget {
+  const ProgressAdjustmentScreen({super.key});
+
   @override
   _ProgressAdjustmentScreenState createState() => _ProgressAdjustmentScreenState();
 }
@@ -19,7 +21,7 @@ class _ProgressAdjustmentScreenState extends State<ProgressAdjustmentScreen> {
 
   void _loadProgress() async {
     try {
-      var progressList = await _storageService.getProgressList();
+      var progressList = _storageService.getProgressList();
       setState(() {
         _progressList = progressList;
       });
@@ -40,10 +42,10 @@ class _ProgressAdjustmentScreenState extends State<ProgressAdjustmentScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Adjust Progress'),
+          title: const Text('Adjust Progress'),
           actions: [
             IconButton(
-              icon: Icon(Icons.refresh),
+              icon: const Icon(Icons.refresh),
               onPressed: _loadProgress,
               tooltip: 'Refresh Progress',
             ),
@@ -57,7 +59,7 @@ class _ProgressAdjustmentScreenState extends State<ProgressAdjustmentScreen> {
               title: Text('Exercise ID: ${progress.exerciseId}'),
               subtitle: Text('Sets: ${progress.sets}, Reps: ${progress.reps}, Weight: ${progress.weight.toStringAsFixed(1)} kg'),
               trailing: IconButton(
-                icon: Icon(Icons.edit),
+                icon: const Icon(Icons.edit),
                 onPressed: () {
                   showDialog(
                     context: context,
@@ -67,34 +69,34 @@ class _ProgressAdjustmentScreenState extends State<ProgressAdjustmentScreen> {
                       TextEditingController weightController = TextEditingController(text: progress.weight.toString());
 
                       return AlertDialog(
-                        title: Text('Edit Progress'),
+                        title: const Text('Edit Progress'),
                         content: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             TextField(
-                              decoration: InputDecoration(labelText: 'Sets'),
+                              decoration: const InputDecoration(labelText: 'Sets'),
                               keyboardType: TextInputType.number,
                               controller: setsController,
                             ),
                             TextField(
-                              decoration: InputDecoration(labelText: 'Reps'),
+                              decoration: const InputDecoration(labelText: 'Reps'),
                               keyboardType: TextInputType.number,
                               controller: repsController,
                             ),
                             TextField(
-                              decoration: InputDecoration(labelText: 'Weight'),
-                              keyboardType: TextInputType.numberWithOptions(decimal: true),
+                              decoration: const InputDecoration(labelText: 'Weight'),
+                              keyboardType: const TextInputType.numberWithOptions(decimal: true),
                               controller: weightController,
                             ),
                           ],
                         ),
                         actions: [
                           TextButton(
-                            child: Text('Cancel'),
+                            child: const Text('Cancel'),
                             onPressed: () => Navigator.pop(context),
                           ),
                           TextButton(
-                            child: Text('Save'),
+                            child: const Text('Save'),
                             onPressed: () {
                               setState(() {
                                 progress.sets = int.tryParse(setsController.text) ?? progress.sets;

@@ -23,6 +23,8 @@ void main() async {
 }
 
 class WorkoutTrackerApp extends StatelessWidget {
+  const WorkoutTrackerApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -32,7 +34,7 @@ class WorkoutTrackerApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => HomeScreen(),
+        '/': (context) => const HomeScreen(),
         '/progress': (context) => ProgressAdjustmentScreen(),
       },
     );

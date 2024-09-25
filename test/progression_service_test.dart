@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import '../lib/services/progression_service.dart';
-import '../lib/models/exercise.dart';
+import 'package:fitpal/services/progression_service.dart';
+import 'package:fitpal/models/exercise.dart';
 
 void main() {
   group('ProgressionService Tests', () {

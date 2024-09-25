@@ -5,7 +5,7 @@ import '../models/workout_reminder.dart';
 class NotificationService {
   final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
-  List<WorkoutReminder> _reminders = [];
+  final List<WorkoutReminder> _reminders = [];
 
   Future<void> initNotifications() async {
     const AndroidInitializationSettings initializationSettingsAndroid =

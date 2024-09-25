@@ -4,6 +4,8 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import '../models/user_profile.dart';
 
 class WorkoutReminderScreen extends StatefulWidget {
+  const WorkoutReminderScreen({super.key});
+
   @override
   _WorkoutReminderScreenState createState() => _WorkoutReminderScreenState();
 }
@@ -37,7 +39,7 @@ class _WorkoutReminderScreenState extends State<WorkoutReminderScreen> {
     const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings('app_icon');
     final InitializationSettings initializationSettings =
-        InitializationSettings(android: initializationSettingsAndroid);
+        const InitializationSettings(android: initializationSettingsAndroid);
     await _notificationsPlugin.initialize(initializationSettings);
   }
 
@@ -90,10 +92,10 @@ class _WorkoutReminderScreenState extends State<WorkoutReminderScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Workout Reminder'),
+        title: const Text('Workout Reminder'),
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -103,9 +105,9 @@ class _WorkoutReminderScreenState extends State<WorkoutReminderScreen> {
                 children: [
                   Text(
                     'Current Reminder: ${_reminderTime?.format(context) ?? 'Not Set'}',
-                    style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+                    style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(height: 16.0),
+                  const SizedBox(height: 16.0),
                   ElevatedButton(
                     onPressed: () async {
                       final selectedTime = await showTimePicker(
@@ -116,12 +118,12 @@ class _WorkoutReminderScreenState extends State<WorkoutReminderScreen> {
                         _setReminder(selectedTime);
                       }
                     },
-                    child: Text('Set Reminder'),
+                    child: const Text('Set Reminder'),
                   ),
                 ],
               ),
             if (_userProfile == null)
-              Center(
+              const Center(
                 child: CircularProgressIndicator(),
               ),
           ],
